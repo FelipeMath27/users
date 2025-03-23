@@ -1,11 +1,13 @@
 package com.pragma.talentpool;
 
-import org.springframework.boot.SpringApplication;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 public class TestTalentpoolApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.from(TalentpoolApplication::main).with(TestcontainersConfiguration.class).run(args);
+	@Test
+	void contextLoads() {
 	}
 
 }

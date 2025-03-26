@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MySqlTestContainerTest {
 
     @Container
-    public static MySQLContainer<?> mysqlContainer = new MySQLContainer<>("mysql:8.0.26")
+    public static MySQLContainer<?> mysqlContainer = new MySQLContainer<>("mysql:8.3.0")
             .withDatabaseName("test")
             .withUsername("root")
             .withPassword("root");

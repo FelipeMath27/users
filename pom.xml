@@ -43,9 +43,9 @@
 
 		<!-- MySql connector -->
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.32</version> <!-- Asegúrate de usar una versión válida -->
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<version>8.3.0</version>
 		</dependency>
 
 		<!-- Hibernate  -->

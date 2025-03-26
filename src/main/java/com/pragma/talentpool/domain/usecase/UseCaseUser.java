@@ -21,7 +21,7 @@ public class UseCaseUser implements IUserServicePort {
     }
 
     @Override
-    public List<User> getAllUser() {
+    public List<User> getAllUsers() {
         return userPersistencePort.getAllUser();
     }
 

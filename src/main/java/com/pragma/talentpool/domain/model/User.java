@@ -9,29 +9,28 @@ import java.util.UUID;
 @Setter
 public class User {
 	
-    private UUID id_user;
-	private String name_user;
-	private String lastName_user;
-    private TypeDocumentEnum typeDocument_user;
-    private String document_user;
-	private String phoneNumber_user;
-	private LocalDate dateBirth_user;
+    private UUID idUser;
+	private String nameUser;
+	private String lastNameUser;
+    private TypeDocumentEnum typeDocumentUser;
+    private String documentUser;
+	private String phoneNumberUser;
+	private LocalDate dateBirthUser;
 	private String email;
     private String password;  // Guardará la contraseña hasheada
-    private Rol idRol;
+    private Rol rol;
 
-    public User(UUID id_user, String name_user, String lastName_user, TypeDocumentEnum typeDocument_user,
-                String document_user, String phoneNumber_user, LocalDate dateBirth_user, String email, String password,
-                Rol idRol) {
-        this.id_user = id_user;
-        this.name_user = name_user;
-        this.lastName_user = lastName_user;
-        this.typeDocument_user = typeDocument_user;
-        this.document_user = document_user;
-        this.phoneNumber_user = phoneNumber_user;
-        this.dateBirth_user = dateBirth_user;
+    public User(UUID idUser, String nameUser, String lastNameUser, TypeDocumentEnum typeDocumentUser, String documentUser,
+                String phoneNumberUser, LocalDate dateBirthUser, String email, String password, Rol rol) {
+        this.idUser = idUser;
+        this.nameUser = nameUser;
+        this.lastNameUser = lastNameUser;
+        this.typeDocumentUser = typeDocumentUser;
+        this.documentUser = documentUser;
+        this.phoneNumberUser = phoneNumberUser;
+        this.dateBirthUser = dateBirthUser;
         this.email = email;
         this.password = password;
-        this.idRol = idRol;
+        this.rol = rol;
     }
 }

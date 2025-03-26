@@ -31,7 +31,7 @@ public class UseCaseRol implements IRolServicePort {
 
     @Override
     public void updateRol(Rol rol){
-        rolPersistencePort.updateUser(rol);
+        rolPersistencePort.updateRol(rol);
     }
 
     @Override

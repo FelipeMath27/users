@@ -11,8 +11,7 @@ public interface IRolPersistencePort {
 
     Rol getRol(String name_rol);
 
-    void updateUser(Rol rol);
+    void updateRol(Rol rol);
 
     void deleteRol(String name_rol);
 }
-s

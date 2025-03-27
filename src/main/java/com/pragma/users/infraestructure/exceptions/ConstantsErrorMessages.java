@@ -8,6 +8,7 @@ public class ConstantsErrorMessages {
     public static final String ROLE_REQUIRED = "No role was provided for the creator user.";
     public static final String ROLE_NOT_FOUND = "The rol provided is not exist";
     public static final String INVALID_DOCUMENT_FORMAT = "The document format is invalid. Please provide a valid document number based on the document type.";
+    public static final String PASSWORD_CANNOT_BE_EMPTY = "Password cannot be null or empty";
 
     private ConstantsErrorMessages() {
     }

@@ -28,14 +28,4 @@ public class UseCaseRol implements IRolServicePort {
     public Rol getRol(String name_rol) {
         return rolPersistencePort.getRol(name_rol);
     }
-
-    @Override
-    public void updateRol(Rol rol){
-        rolPersistencePort.updateRol(rol);
-    }
-
-    @Override
-    public void deleteRol(String name_rol){
-        rolPersistencePort.deleteRol(name_rol);
-    }
 }

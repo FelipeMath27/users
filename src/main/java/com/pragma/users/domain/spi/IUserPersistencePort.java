@@ -11,7 +11,4 @@ public interface IUserPersistencePort {
 
     User getUser(String email);
 
-    void updateUser(User user);
-
-    void deleteUser(String email);
 }

@@ -10,8 +10,4 @@ public interface IRolServicePort {
     List<Rol> getAllRoles();
 
     Rol getRol(String name_rol);
-
-    void updateRol(Rol rol);
-
-    void deleteRol(String name_rol);
 }

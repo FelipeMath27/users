@@ -11,8 +11,4 @@ public interface IUserHandler {
     List<UserDTOResponse> getAllUserDTO();
 
     UserDTOResponse getUserDTO(String email);
-
-    void updateUserDTO(UserDTORequest userDTORq);
-
-    void deleteUserDTO(String email);
 }

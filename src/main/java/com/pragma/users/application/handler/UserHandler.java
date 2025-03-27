@@ -39,14 +39,4 @@ public class UserHandler implements IUserHandler{
     public UserDTOResponse getUserDTO(String email) {
         return null;
     }
-
-    @Override
-    public void updateUserDTO(UserDTORequest userDTORq) {
-
-    }
-
-    @Override
-    public void deleteUserDTO(String email) {
-
-    }
 }

@@ -60,12 +60,6 @@ public class UseCaseUser implements IUserServicePort {
         }
     }
 
-
-    @Override
-    public List<User> getAllUsers() {
-        return List.of();
-    }
-
     @Override
     public User getUser(String email) {
         return null;

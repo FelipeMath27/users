@@ -6,8 +6,6 @@ import java.util.List;
 public interface IUserServicePort {
     void saveUserOwner(User user, User creatorUser);
 
-    List<User> getAllUsers();
-
     User getUser(String email);
 
 }

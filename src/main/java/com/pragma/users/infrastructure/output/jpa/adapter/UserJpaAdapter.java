@@ -33,10 +33,4 @@ public class UserJpaAdapter implements IUserPersistencePort {
                 orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,ConstantsErrorMessages.USER_NOT_FOUND));
     }
 
-    @Override
-    public List<User> getAllUser() {
-        return List.of();
-    }
-
-
 }

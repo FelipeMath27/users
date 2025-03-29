@@ -45,11 +45,6 @@ public class UserHandler implements IUserHandler{
     }
 
     @Override
-    public List<UserDTOResponse> getAllUserDTO() {
-        return List.of();
-    }
-
-    @Override
     public UserDTOResponse getUserDTO(String email) {
         return null;
     }

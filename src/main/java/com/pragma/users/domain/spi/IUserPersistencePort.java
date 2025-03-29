@@ -7,8 +7,5 @@ import java.util.List;
 public interface IUserPersistencePort {
     void saveUserOwner(User user);
 
-    List<User> getAllUser();
-
     User getUserByEmail(String email);
-
 }

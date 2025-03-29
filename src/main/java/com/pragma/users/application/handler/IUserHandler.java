@@ -8,7 +8,5 @@ import java.util.List;
 public interface IUserHandler {
     void saveUserDTOOwner(UserDTORequest userDTORq, String emailCreator);
 
-    List<UserDTOResponse> getAllUserDTO();
-
     UserDTOResponse getUserDTO(String email);
 }

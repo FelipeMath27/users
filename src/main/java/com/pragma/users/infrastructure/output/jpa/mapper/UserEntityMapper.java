@@ -18,5 +18,4 @@ public interface UserEntityMapper {
     @Mapping(source = "rolEntity", target = "rol")
     User toUser(UserEntity userEntity);
 
-    List<User> toUserlist(List<UserEntity> userEntityList);
 }

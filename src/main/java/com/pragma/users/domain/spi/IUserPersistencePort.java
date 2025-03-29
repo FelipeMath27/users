@@ -9,6 +9,6 @@ public interface IUserPersistencePort {
 
     List<User> getAllUser();
 
-    User getUser(String email);
+    User getUserByEmail(String email);
 
 }

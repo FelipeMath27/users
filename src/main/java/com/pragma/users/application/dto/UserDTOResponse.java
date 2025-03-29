@@ -11,7 +11,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTOResponse {
-    private UUID id_user;  // Se devuelve el ID generado por la BD
     private String name_user;
     private String lastName_user;
     private TypeDocumentEnum typeDocument_user;

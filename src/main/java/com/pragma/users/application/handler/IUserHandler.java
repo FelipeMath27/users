@@ -6,7 +6,7 @@ import com.pragma.users.application.dto.UserDTOResponse;
 import java.util.List;
 
 public interface IUserHandler {
-    void saveUserDTO(UserDTORequest userDTORq);
+    void saveUserDTOOwner(UserDTORequest userDTORq, String emailCreator);
 
     List<UserDTOResponse> getAllUserDTO();
 

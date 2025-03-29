@@ -9,6 +9,10 @@ import com.pragma.users.application.mapper.UserResponseMapper;
 import com.pragma.users.domain.api.IRolServicePort;
 import com.pragma.users.domain.api.IUserServicePort;
 
+import com.pragma.users.domain.model.User;
+import com.pragma.users.domain.validator.ValidatorCases;
+import com.pragma.users.infrastructure.exceptions.ConstantsErrorMessages;
+import com.pragma.users.infrastructure.exceptions.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +31,17 @@ public class UserHandler implements IUserHandler{
     private final UserResponseMapper userResponseMapper;
 
     @Override
-    public void saveUserDTO(UserDTORequest userDTORq) {
+    public void saveUserDTOOwner(UserDTORequest userDTORq, String emailCreator) {
+        if(!ValidatorCases.isValidEmail(emailCreator) ||
+                !ValidatorCases.isValidEmail(userDTORq.getEmail())){
+            throw new CustomException(ConstantsErrorMessages.INVALID_EMAIL_FORMAT);
+        }
+        User creatorUser = iUserServicePort.getUser(emailCreator);
+        if (creatorUser == null){
+            throw new CustomException(ConstantsErrorMessages.USER_NOT_FOUND);
+        }
+        User newUser = userRequestMapper.toUser(userDTORq);
+        iUserServicePort.saveUserOwner(newUser,creatorUser);
     }
 
     @Override

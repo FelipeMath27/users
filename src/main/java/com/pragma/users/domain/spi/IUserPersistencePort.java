@@ -5,7 +5,7 @@ import com.pragma.users.domain.model.User;
 import java.util.List;
 
 public interface IUserPersistencePort {
-    void saveUser(User user);
+    void saveUserOwner(User user);
 
     List<User> getAllUser();
 

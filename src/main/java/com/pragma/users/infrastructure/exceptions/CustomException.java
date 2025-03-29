@@ -1,4 +1,4 @@
-package com.pragma.users.infraestructure.exceptions;
+package com.pragma.users.infrastructure.exceptions;
 
 
 

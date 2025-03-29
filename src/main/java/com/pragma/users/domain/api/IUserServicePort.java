@@ -4,7 +4,7 @@ import com.pragma.users.domain.model.User;
 import java.util.List;
 
 public interface IUserServicePort {
-    void saveUser(User user, User creatorUser);
+    void saveUserOwner(User user, User creatorUser);
 
     List<User> getAllUsers();
 

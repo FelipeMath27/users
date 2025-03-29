@@ -1,4 +1,4 @@
-package com.pragma.users.infraestructure.exceptions;
+package com.pragma.users.infrastructure.exceptions;
 
 public class ConstantsErrorMessages {
     public static final String PERMISSION_DENIED = "You do not have permission to create users.";
@@ -9,6 +9,7 @@ public class ConstantsErrorMessages {
     public static final String ROLE_NOT_FOUND = "The rol provided is not exist";
     public static final String INVALID_DOCUMENT_FORMAT = "The document format is invalid. Please provide a valid document number based on the document type.";
     public static final String PASSWORD_CANNOT_BE_EMPTY = "Password cannot be null or empty";
+    public static final String USER_NOT_FOUND = "User not found in the platform";
 
     private ConstantsErrorMessages() {
     }

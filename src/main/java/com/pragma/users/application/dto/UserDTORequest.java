@@ -18,6 +18,6 @@ public class UserDTORequest {
     private String phoneNumberUser;
     private LocalDate dateBirthUser;
     private String email;
-    private String password;  // Solo se envia en request
+    private String password;  // Just sending in request
     private Rol rol;
 }

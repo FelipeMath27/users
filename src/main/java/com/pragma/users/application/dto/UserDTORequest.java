@@ -19,5 +19,5 @@ public class UserDTORequest {
     private LocalDate dateBirthUser;
     private String email;
     private String password;  // Just sending in request
-    private Rol rol;
+    private RolDTORequest rol;
 }

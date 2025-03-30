@@ -1,7 +1,9 @@
 package com.pragma.users.domain.validator;
 
 import com.pragma.users.domain.model.TypeDocumentEnum;
+import com.pragma.users.domain.model.TypeRolEnum;
 import com.pragma.users.domain.model.User;
+import com.pragma.users.domain.spi.IUserPersistencePort;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -35,17 +37,12 @@ public class ValidatorCases {
         return switch (type) {
             case CC, CE, TI -> document.matches("^[0-9]+$");
             case PS -> document.matches("^[A-Za-z0-9]+$");
-            default -> false;
         };
-    }
-
-    public static boolean hasRole(User user, String role ){
-        return user.getRol() != null && role.equals(user.getRol().getNameRol());
     }
 
     public static boolean isAdult(LocalDate dateOfBirth) {
         if (dateOfBirth == null) {
-            return false;  // O lanzar excepción si el campo es obligatorio
+            return false;
         }
         return Period.between(dateOfBirth, LocalDate.now()).getYears() >= 18;
     }

@@ -17,7 +17,7 @@ public class User {
 	private String phoneNumberUser;
 	private LocalDate dateBirthUser;
 	private String email;
-    private String password;  // Guardará la contraseña hasheada
+    private String password;
     private Rol rol;
 
     public User(UUID idUser, String nameUser, String lastNameUser, TypeDocumentEnum typeDocumentUser, String documentUser,

@@ -8,11 +8,11 @@ import java.util.UUID;
 @Getter
 @Setter
 public class Rol {
-    private UUID idRol;
+    private Long idRol;
     private String nameRol;
     private String descriptionRol;
 
-    public Rol(UUID idRol, String nameRol, String descriptionRol) {
+    public Rol(Long idRol, String nameRol, String descriptionRol) {
         this.idRol = idRol;
         this.nameRol = nameRol;
         this.descriptionRol = descriptionRol;

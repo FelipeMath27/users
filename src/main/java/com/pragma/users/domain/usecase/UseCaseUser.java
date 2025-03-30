@@ -12,8 +12,6 @@ import com.pragma.users.infrastructure.exceptions.ConstantsErrorMessages;
 import com.pragma.users.infrastructure.exceptions.CustomException;
 import com.pragma.users.infrastructure.security.PasswordService;
 
-import java.util.List;
-
 public class UseCaseUser implements IUserServicePort {
 
     private final IUserPersistencePort userPersistencePort;
@@ -27,18 +25,19 @@ public class UseCaseUser implements IUserServicePort {
     }
 
     @Override
-    public void saveUserOwner(User newUser, User creatorUser) {
-        if (creatorUser.getRol() == null){
-            throw new CustomException(ConstantsErrorMessages.ROLE_REQUIRED);
+    public void saveUserOwner(User newUser, String emailCreatorUser) {
+        if (emailCreatorUser == null){
+            throw new CustomException(ConstantsErrorMessages.CANT_BE_NULL);
         }
-
-        if(!ValidatorCases.hasRole(creatorUser,TypeRolEnum.ADMIN.name())){
+        User creatorUser = userPersistencePort.getUserByEmail(emailCreatorUser);
+        if(!TypeRolEnum.ADMIN.name().equals(creatorUser.getRol().getNameRol())){
             throw new CustomException(ConstantsErrorMessages.PERMISSION_DENIED);
         }
         Rol ownerRol = rolServicePort.getRol(TypeRolEnum.OWNER.name());
         newUser.setRol(ownerRol);
         newUser.setEmail(ValidatorCases.sanitizeString(newUser.getEmail()));
         newUser.setPhoneNumberUser(ValidatorCases.sanitizeString(newUser.getPhoneNumberUser()));
+        newUser.setDocumentUser(ValidatorCases.sanitizeString(newUser.getDocumentUser()));
         validateUser(newUser);
         newUser.setPassword(passwordService.encryptPassword(newUser.getPassword()));
         userPersistencePort.saveUserOwner(newUser);

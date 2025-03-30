@@ -10,6 +10,7 @@ public class ConstantsErrorMessages {
     public static final String INVALID_DOCUMENT_FORMAT = "The document format is invalid. Please provide a valid document number based on the document type.";
     public static final String PASSWORD_CANNOT_BE_EMPTY = "Password cannot be null or empty";
     public static final String USER_NOT_FOUND = "User not found in the platform";
+    public static final String CANT_BE_NULL = "This parameter can't be null";
 
     private ConstantsErrorMessages() {
     }

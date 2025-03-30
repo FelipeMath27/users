@@ -41,7 +41,7 @@ public class UserHandler implements IUserHandler{
             throw new CustomException(ConstantsErrorMessages.USER_NOT_FOUND);
         }
         User newUser = userRequestMapper.toUser(userDTORq);
-        iUserServicePort.saveUserOwner(newUser,creatorUser);
+        iUserServicePort.saveUserOwner(newUser,emailCreator);
     }
 
     @Override

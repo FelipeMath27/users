@@ -13,5 +13,4 @@ import java.util.List;
 public interface RolResponseMapper {
     RolDTOResponse toResponse(Rol rol);
 
-    List<RolDTOResponse> toResponseList(List<Rol> roles);
 }

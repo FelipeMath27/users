@@ -16,16 +16,5 @@ import java.util.List;
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
         uses = {RolResponseMapper.class})
 public interface UserResponseMapper {
-    @Mapping(source = "rol", target = "rol", qualifiedByName = "mapRolToDTO")
     UserDTOResponse userDtoResponse(User user);
-
-    List<UserDTOResponse> toResponseList(List<User> users);
-
-    @Named("mapRolToDTO")
-    static RolDTOResponse mapRolToDTO(Rol rol) {
-        if (rol == null) {
-            return null;
-        }
-        return new RolDTOResponse(rol.getIdRol(), rol.getNameRol(), rol.getDescriptionRol());
-    }
 }

@@ -12,12 +12,11 @@ public class UserDTORequest {
     private String phoneNumberUser;
     private LocalDate dateBirthUser;
     private String email;
-    private String password;  // Just sending in request
-    private RolDTORequest rol;
+    private String password;
+    private String nameRol;
 
-    public UserDTORequest(String nameUser, String lastNameUser, TypeDocumentEnum typeDocumentUser,
-                          String documentUser, String phoneNumberUser, LocalDate dateBirthUser, String email,
-                          String password, RolDTORequest rol) {
+    public UserDTORequest(String nameUser, String lastNameUser, TypeDocumentEnum typeDocumentUser, String documentUser,
+                          String phoneNumberUser, LocalDate dateBirthUser, String email, String password, String nameRol) {
         this.nameUser = nameUser;
         this.lastNameUser = lastNameUser;
         this.typeDocumentUser = typeDocumentUser;
@@ -26,7 +25,10 @@ public class UserDTORequest {
         this.dateBirthUser = dateBirthUser;
         this.email = email;
         this.password = password;
-        this.rol = rol;
+        this.nameRol = nameRol;
+    }
+
+    public UserDTORequest() {
     }
 
     public String getNameUser() {
@@ -93,12 +95,12 @@ public class UserDTORequest {
         this.password = password;
     }
 
-    public RolDTORequest getRol() {
-        return rol;
+    public String getNameRol() {
+        return nameRol;
     }
 
-    public void setRol(RolDTORequest rol) {
-        this.rol = rol;
+    public void setNameRol(String nameRol) {
+        this.nameRol = nameRol;
     }
 
     @Override
@@ -112,7 +114,7 @@ public class UserDTORequest {
                 ", dateBirthUser=" + dateBirthUser +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", rol=" + rol +
+                ", nameRol='" + nameRol + '\'' +
                 '}';
     }
 }

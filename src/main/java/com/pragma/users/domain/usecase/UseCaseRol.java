@@ -7,6 +7,7 @@ import com.pragma.users.infrastructure.exceptions.ConstantsErrorMessages;
 import com.pragma.users.infrastructure.exceptions.CustomException;
 
 import java.util.List;
+import java.util.Optional;
 
 public class UseCaseRol implements IRolServicePort {
 
@@ -23,14 +24,7 @@ public class UseCaseRol implements IRolServicePort {
 
     @Override
     public Rol getRolByName(String nameRol) {
-        if(nameRol == null){
-            throw new CustomException(ConstantsErrorMessages.CANT_BE_NULL);
-        }
-        Rol rol = rolPersistencePort.getRolByName(nameRol);
-        if (rol == null){
-            throw new CustomException(ConstantsErrorMessages.ROL_NOT_FOUND);
-        }
-        return rol;
+        return rolPersistencePort.getRolByName(nameRol);
     }
 
 }

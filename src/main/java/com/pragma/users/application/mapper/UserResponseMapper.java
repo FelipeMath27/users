@@ -7,9 +7,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
+@Mapper(componentModel = "spring",
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE,
         uses = {RolResponseMapper.class})
 public interface UserResponseMapper {
-    UserDTOResponse userDtoResponse(User user);
+    UserDTOResponse toUserDtoResponse(User user);
 }

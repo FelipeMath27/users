@@ -12,6 +12,8 @@ public class ConstantsErrorMessages {
     public static final String USER_NOT_FOUND = "User not found in the platform";
     public static final String CANT_BE_NULL = "This parameter can't be null";
     public static final String ADMIN_NOT_FOUND = "User admin not found in the system";
+    public static final String USER_WITHOUT_ROLE = "This user has not role";
+
 
     private ConstantsErrorMessages() {
     }

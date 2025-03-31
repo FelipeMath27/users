@@ -11,11 +11,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 public class RolJpaAdapter implements IRolPersistencePort {
     private final IRolRepository iRolRepository;
     private final RolEntityMapper rolEntityMapper;
+
+    private static final Logger logger = LoggerFactory.getLogger(RolJpaAdapter.class);
 
     public RolJpaAdapter(IRolRepository iRolRepository, RolEntityMapper rolEntityMapper) {
         this.iRolRepository = iRolRepository;
@@ -30,8 +34,10 @@ public class RolJpaAdapter implements IRolPersistencePort {
 
     @Override
     public Rol getRolByName(String nameRol) {
+        logger.info("Buscando rol con nombre: {}", nameRol);
         Optional<RolEntity> rolEntityOptional = iRolRepository.findByNameRol(nameRol);
-        return rolEntityOptional.map(rolEntityMapper::toRol).
-                orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, ConstantsErrorMessages.ROL_NOT_FOUND));
+        rolEntityOptional.ifPresent(entity -> logger.info("Rol encontrado: {}", entity));
+        return rolEntityOptional.map(rolEntityMapper::toRol)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ConstantsErrorMessages.ROL_NOT_FOUND));
     }
 }

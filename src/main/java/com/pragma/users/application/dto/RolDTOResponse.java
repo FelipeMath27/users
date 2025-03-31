@@ -1,39 +1,40 @@
 package com.pragma.users.application.dto;
 
 public class RolDTOResponse {
-    private String name_rol;
-    private String description_rol;
+    private Long idRol;
+    private String nameRol;
+    private String descriptionRol;
 
     public RolDTOResponse() {
     }
 
-    public RolDTOResponse(String name_rol, String description_rol) {
-        this.name_rol = name_rol;
-        this.description_rol = description_rol;
+    public RolDTOResponse(Long idRol, String nameRol, String descriptionRol) {
+        this.idRol = idRol;
+        this.nameRol = nameRol;
+        this.descriptionRol = descriptionRol;
     }
 
-    public String getName_rol() {
-        return name_rol;
+    public Long getIdRol() {
+        return idRol;
     }
 
-    public void setName_rol(String name_rol) {
-        this.name_rol = name_rol;
+    public void setIdRol(Long idRol) {
+        this.idRol = idRol;
     }
 
-    public String getDescription_rol() {
-        return description_rol;
+    public String getNameRol() {
+        return nameRol;
     }
 
-    public void setDescription_rol(String description_rol) {
-        this.description_rol = description_rol;
+    public void setNameRol(String nameRol) {
+        this.nameRol = nameRol;
     }
 
-    @Override
-    public String toString() {
-        return "RolDTOResponse{" +
-                "name_rol='" + name_rol + '\'' +
-                ", description_rol='" + description_rol + '\'' +
-                '}';
+    public String getDescriptionRol() {
+        return descriptionRol;
     }
 
+    public void setDescriptionRol(String descriptionRol) {
+        this.descriptionRol = descriptionRol;
+    }
 }

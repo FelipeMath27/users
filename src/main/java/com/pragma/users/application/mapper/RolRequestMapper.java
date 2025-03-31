@@ -3,6 +3,7 @@ package com.pragma.users.application.mapper;
 import com.pragma.users.application.dto.RolDTORequest;
 import com.pragma.users.domain.model.Rol;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",

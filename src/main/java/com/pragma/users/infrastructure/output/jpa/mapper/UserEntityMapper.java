@@ -6,16 +6,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        unmappedSourcePolicy = ReportingPolicy.IGNORE)
+        unmappedSourcePolicy = ReportingPolicy.IGNORE,
+        uses = RolEntityMapper.class )
 public interface UserEntityMapper {
-    @Mapping(source = "rol", target = "rolEntity")
     UserEntity toUserEntity(User user);
 
-    @Mapping(source = "rolEntity", target = "rol")
     User toUser(UserEntity userEntity);
 
 }

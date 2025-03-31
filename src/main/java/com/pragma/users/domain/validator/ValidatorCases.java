@@ -1,9 +1,6 @@
 package com.pragma.users.domain.validator;
 
 import com.pragma.users.domain.model.TypeDocumentEnum;
-import com.pragma.users.domain.model.TypeRolEnum;
-import com.pragma.users.domain.model.User;
-import com.pragma.users.domain.spi.IUserPersistencePort;
 
 import java.time.LocalDate;
 import java.time.Period;

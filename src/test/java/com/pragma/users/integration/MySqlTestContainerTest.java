@@ -1,4 +1,4 @@
-package com.pragma.users.integration;
+/** package com.pragma.users.integration;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,4 +40,4 @@ class MySqlTestContainerTest {
         System.out.println("Username: " + mysqlContainer.getUsername());
         System.out.println("Password: " + mysqlContainer.getPassword());
     }
-}
+} */

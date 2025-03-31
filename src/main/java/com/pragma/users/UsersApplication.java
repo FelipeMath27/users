@@ -1,13 +1,14 @@
 package com.pragma.users;
 
+import com.pragma.users.application.dto.UserDTORequest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TalentpoolApplication {
+public class UsersApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TalentpoolApplication.class, args);
+		SpringApplication.run(UsersApplication.class, args);
 	}
 
 }

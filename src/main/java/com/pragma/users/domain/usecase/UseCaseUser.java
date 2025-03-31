@@ -30,10 +30,13 @@ public class UseCaseUser implements IUserServicePort {
             throw new CustomException(ConstantsErrorMessages.CANT_BE_NULL);
         }
         User creatorUser = userPersistencePort.getUserByEmail(emailCreatorUser);
+        if(creatorUser == null){
+            throw new CustomException(ConstantsErrorMessages.ADMIN_NOT_FOUND);
+        }
         if(!TypeRolEnum.ADMIN.name().equals(creatorUser.getRol().getNameRol())){
             throw new CustomException(ConstantsErrorMessages.PERMISSION_DENIED);
         }
-        Rol ownerRol = rolServicePort.getRol(TypeRolEnum.OWNER.name());
+        Rol ownerRol = rolServicePort.getRolByName(TypeRolEnum.OWNER.name());
         newUser.setRol(ownerRol);
         newUser.setEmail(ValidatorCases.sanitizeString(newUser.getEmail()));
         newUser.setPhoneNumberUser(ValidatorCases.sanitizeString(newUser.getPhoneNumberUser()));
@@ -43,8 +46,19 @@ public class UseCaseUser implements IUserServicePort {
         userPersistencePort.saveUserOwner(newUser);
     }
 
-
     private void validateUser(User user) {
+        if(user.getNameUser() == null || user.getNameUser().isBlank()){
+            throw new CustomException(ConstantsErrorMessages.CANT_BE_NULL);
+        }
+        if(user.getLastNameUser() == null || user.getLastNameUser().isBlank()){
+            throw new CustomException(ConstantsErrorMessages.CANT_BE_NULL);
+        }
+        if(user.getTypeDocumentUser() == null){
+            throw new CustomException(ConstantsErrorMessages.CANT_BE_NULL);
+        }
+        if(user.getDateBirthUser() == null){
+            throw new CustomException(ConstantsErrorMessages.CANT_BE_NULL);
+        }
         if(!ValidatorCases.isValidEmail(user.getEmail())){
             throw new CustomException(ConstantsErrorMessages.INVALID_EMAIL_FORMAT);
         }
@@ -61,10 +75,6 @@ public class UseCaseUser implements IUserServicePort {
 
     @Override
     public User getUser(String email) {
-        return null;
+        return userPersistencePort.getUserByEmail(email);
     }
-
-
-
-
 }

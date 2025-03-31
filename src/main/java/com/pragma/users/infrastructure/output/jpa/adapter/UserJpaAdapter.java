@@ -6,19 +6,21 @@ import com.pragma.users.infrastructure.exceptions.ConstantsErrorMessages;
 import com.pragma.users.infrastructure.output.jpa.entity.UserEntity;
 import com.pragma.users.infrastructure.output.jpa.mapper.UserEntityMapper;
 import com.pragma.users.infrastructure.output.jpa.repository.IUserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 import java.util.Optional;
 
 @Component
-@RequiredArgsConstructor
 public class UserJpaAdapter implements IUserPersistencePort {
     private final IUserRepository userRepository;
     private final UserEntityMapper userEntityMapper;
+
+    public UserJpaAdapter(IUserRepository userRepository, UserEntityMapper userEntityMapper) {
+        this.userRepository = userRepository;
+        this.userEntityMapper = userEntityMapper;
+    }
 
     @Override
     public void saveUserOwner(User user) {

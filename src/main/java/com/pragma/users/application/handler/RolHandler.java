@@ -37,4 +37,9 @@ public class RolHandler implements IRolHandler{
         logger.info("Respuesta del rol mapeado: {}", response);
         return response;
     }
+
+    @Override
+    public RolDTOResponse getRolDTOId(Long idRol) {
+        return rolResponseMapper.toResponse(iRolServicePort.getRolById(idRol));
+    }
 }

@@ -40,4 +40,11 @@ public class RolJpaAdapter implements IRolPersistencePort {
         return rolEntityOptional.map(rolEntityMapper::toRol)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ConstantsErrorMessages.ROL_NOT_FOUND));
     }
+
+    @Override
+    public Rol getRolById(Long idRol) {
+        Optional<RolEntity> rolEntityOptional = iRolRepository.findByIdRol(idRol);
+        return rolEntityOptional.map(rolEntityMapper::toRol)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ConstantsErrorMessages.ROL_NOT_FOUND));
+    }
 }

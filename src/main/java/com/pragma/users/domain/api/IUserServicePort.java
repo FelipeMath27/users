@@ -6,4 +6,6 @@ public interface IUserServicePort {
     void saveUserOwner(User user,String emailCreatorUser);
 
     User getUser(String email);
+
+    User getUserById(Long idUser);
 }

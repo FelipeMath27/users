@@ -41,7 +41,11 @@ public class UseCaseUser implements IUserServicePort {
         } else {
             throw new CustomException(ConstantsErrorMessages.USER_NOT_FOUND);
         }
-        if(newUser.getRol().getNameRol() == null){
+        if(newUser.getRol().getNameRol() != null){
+            if(!TypeRolEnum.OWNER.name().equals(newUser.getRol().getNameRol())){
+                throw new CustomException(ConstantsErrorMessages.INVALID_ROLE);
+            }
+        } else {
             throw new CustomException(ConstantsErrorMessages.CANT_BE_NULL);
         }
         newUser.setRol(rolServicePort.getRolByName(newUser.getRol().getNameRol()));
@@ -91,5 +95,10 @@ public class UseCaseUser implements IUserServicePort {
     @Override
     public User getUser(String email) {
         return userPersistencePort.getUserByEmail(email);
+    }
+
+    @Override
+    public User getUserById(Long idUser) {
+        return userPersistencePort.getUserById(idUser);
     }
 }

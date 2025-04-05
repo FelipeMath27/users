@@ -7,4 +7,6 @@ public interface IUserHandler {
     void saveUserDTOOwner(UserDTORequest userDTORq, String emailCreator);
 
     UserDTOResponse getUserDTO(String email);
+
+    UserDTOResponse getUserDTOById(Long idUser);
 }

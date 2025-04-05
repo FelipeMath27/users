@@ -13,6 +13,7 @@ public class ValidatorCases {
         return input == null ? null : input.trim();
     }
 
+    //Constantes para informar que hace el validador...
     public static boolean isValidEmail(String email) {
         if(email == null) {
             return false;
@@ -42,5 +43,5 @@ public class ValidatorCases {
             return false;
         }
         return Period.between(dateOfBirth, LocalDate.now()).getYears() >= 18;
-    }
+        }
 }

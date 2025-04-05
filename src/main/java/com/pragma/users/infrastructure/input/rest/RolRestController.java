@@ -32,4 +32,10 @@ public class RolRestController {
         logger.info("Respuesta del rol: {}", rolDTOResponse);
         return ResponseEntity.ok(rolDTOResponse);
     }
+
+    @GetMapping("/id/{idRol}")
+    public ResponseEntity<RolDTOResponse> getRolById(@PathVariable Long idRol){
+        RolDTOResponse rolDTOResponse = rolHandler.getRolDTOId(idRol);
+        return ResponseEntity.ok(rolDTOResponse);
+    }
 }

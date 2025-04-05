@@ -35,4 +35,11 @@ public class UserJpaAdapter implements IUserPersistencePort {
                 orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,ConstantsErrorMessages.USER_NOT_FOUND));
     }
 
+    @Override
+    public User getUserById(Long idUser) {
+        Optional<UserEntity> userEntityOptional = userRepository.findById(idUser);
+        return userEntityOptional.map(userEntityMapper::toUser).
+                orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,ConstantsErrorMessages.USER_NOT_FOUND));
+    }
+
 }

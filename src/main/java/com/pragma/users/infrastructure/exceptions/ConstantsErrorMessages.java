@@ -13,7 +13,7 @@ public class ConstantsErrorMessages {
     public static final String CANT_BE_NULL = "This parameter can't be null";
     public static final String ADMIN_NOT_FOUND = "User admin not found in the system";
     public static final String USER_WITHOUT_ROLE = "This user has not role";
-
+    public static final String INVALID_ROLE = "Invalid role to create de user";
 
     private ConstantsErrorMessages() {
     }

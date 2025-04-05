@@ -7,4 +7,6 @@ public interface IRolHandler {
     void saveRolDto(RolDTORequest rolDTORequest);
 
     RolDTOResponse getRolDTO(String nameRol);
+
+    RolDTOResponse getRolDTOId(Long idRol);
 }

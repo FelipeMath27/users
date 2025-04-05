@@ -7,4 +7,5 @@ public interface IRolPersistencePort {
 
     Rol getRolByName(String nameRol);
 
+    Rol getRolById(Long idRol);
 }

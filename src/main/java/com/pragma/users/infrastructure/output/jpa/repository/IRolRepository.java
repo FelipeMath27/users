@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface IRolRepository extends JpaRepository<RolEntity, Long> {
     @Query("SELECT r FROM RolEntity r WHERE UPPER(r.nameRol) = UPPER(:nameRol)")
     Optional<RolEntity> findByNameRol(@Param("nameRol")String nameRol);
+
+    Optional<RolEntity> findByIdRol(@Param("idRol") Long idRol);
 }

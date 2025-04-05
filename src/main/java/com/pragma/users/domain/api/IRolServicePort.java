@@ -6,4 +6,6 @@ public interface IRolServicePort {
     void saveRol(Rol rol);
 
     Rol getRolByName(String nameRol);
+
+    Rol getRolById(Long idRol);
 }

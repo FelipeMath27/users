@@ -67,8 +67,13 @@ public class UserHandler implements IUserHandler{
         iUserServicePort.saveUserOwner(newUser,emailCreator);
     }
 
-        @Override
-        public UserDTOResponse getUserDTO(String email) {
-            return userResponseMapper.toUserDtoResponse(iUserServicePort.getUser(email));
-        }
+    @Override
+    public UserDTOResponse getUserDTO(String email) {
+        return userResponseMapper.toUserDtoResponse(iUserServicePort.getUser(email));
+    }
+
+    @Override
+    public UserDTOResponse getUserDTOById(Long idUser) {
+        return userResponseMapper.toUserDtoResponse(iUserServicePort.getUserById(idUser));
+    }
 }

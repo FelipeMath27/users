@@ -40,5 +40,11 @@ public class UserRestController {
         return ResponseEntity.ok(userDTOResponse);
     }
 
+    @GetMapping("/id/{idUser}")
+    public ResponseEntity<UserDTOResponse> getUserById(@PathVariable Long idUser) {
+        UserDTOResponse userDTOResponse = userHandler.getUserDTOById(idUser);
+        return ResponseEntity.ok(userDTOResponse);
+    }
+
 
 }

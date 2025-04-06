@@ -2,7 +2,7 @@ package com.pragma.users.infrastructure.output.jpa.adapter;
 
 import com.pragma.users.domain.model.Rol;
 import com.pragma.users.domain.spi.IRolPersistencePort;
-import com.pragma.users.infrastructure.exceptions.ConstantsErrorMessages;
+import com.pragma.users.domain.utils.ConstantsErrorMessages;
 import com.pragma.users.infrastructure.output.jpa.entity.RolEntity;
 import com.pragma.users.infrastructure.output.jpa.mapper.RolEntityMapper;
 import com.pragma.users.infrastructure.output.jpa.repository.IRolRepository;

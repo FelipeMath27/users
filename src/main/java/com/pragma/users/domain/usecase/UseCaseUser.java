@@ -3,16 +3,19 @@ package com.pragma.users.domain.usecase;
 
 import com.pragma.users.domain.api.IRolServicePort;
 import com.pragma.users.domain.api.IUserServicePort;
-import com.pragma.users.domain.model.Rol;
+import com.pragma.users.domain.model.TypeDocumentEnum;
 import com.pragma.users.domain.model.TypeRolEnum;
 import com.pragma.users.domain.model.User;
 import com.pragma.users.domain.spi.IUserPersistencePort;
 import com.pragma.users.domain.validator.ValidatorCases;
-import com.pragma.users.infrastructure.exceptions.ConstantsErrorMessages;
+import com.pragma.users.domain.utils.ConstantsErrorMessages;
 import com.pragma.users.infrastructure.exceptions.CustomException;
 import com.pragma.users.infrastructure.security.PasswordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 
 public class UseCaseUser implements IUserServicePort {
@@ -22,7 +25,9 @@ public class UseCaseUser implements IUserServicePort {
     private final IRolServicePort rolServicePort;
     private final PasswordService passwordService;
 
-    public UseCaseUser(IUserPersistencePort userPersistencePort, IRolServicePort rolServicePort, PasswordService passwordService){
+    public UseCaseUser(IUserPersistencePort userPersistencePort,
+                       IRolServicePort rolServicePort,
+                       PasswordService passwordService){
         this.userPersistencePort = userPersistencePort;
         this.rolServicePort = rolServicePort;
         this.passwordService = passwordService;
@@ -30,66 +35,50 @@ public class UseCaseUser implements IUserServicePort {
 
     @Override
     public void saveUserOwner(User newUser,String emailCreatorUser) {
-       if (emailCreatorUser == null){
-           throw new CustomException(ConstantsErrorMessages.CANT_BE_NULL);
-       }
-       User creatorUser = userPersistencePort.getUserByEmail(emailCreatorUser);
-        if (creatorUser != null) {
-            if(!TypeRolEnum.ADMIN.name().equals(creatorUser.getRol().getNameRol())){
-                throw new CustomException(ConstantsErrorMessages.PERMISSION_DENIED);
-            }
-        } else {
-            throw new CustomException(ConstantsErrorMessages.USER_NOT_FOUND);
-        }
-        if(newUser.getRol().getNameRol() != null){
-            if(!TypeRolEnum.OWNER.name().equals(newUser.getRol().getNameRol())){
-                throw new CustomException(ConstantsErrorMessages.INVALID_ROLE);
-            }
-        } else {
-            throw new CustomException(ConstantsErrorMessages.CANT_BE_NULL);
-        }
-        newUser.setRol(rolServicePort.getRolByName(newUser.getRol().getNameRol()));
-        validateUser(newUser);
-        newUser.setPassword(passwordService.encryptPassword(newUser.getPassword()));
-        userPersistencePort.saveUserOwner(newUser);
+        validateAdminCreator(emailCreatorUser);
+        validateOwnerRole(newUser);
+        validateUserNames(newUser);
+        processValidateSaveUser(newUser);
     }
 
-    private void validateUser(User user) {
-        if(user.getNameUser() == null || user.getNameUser().isBlank()){
-            throw new CustomException(ConstantsErrorMessages.CANT_BE_NULL);
-        }
-        if(user.getLastNameUser() == null || user.getLastNameUser().isBlank()){
-            throw new CustomException(ConstantsErrorMessages.CANT_BE_NULL);
-        }
-        if(user.getTypeDocumentUser() == null){
-            throw new CustomException(ConstantsErrorMessages.CANT_BE_NULL);
-        }
-        if(user.getDateBirthUser() == null){
-            throw new CustomException(ConstantsErrorMessages.CANT_BE_NULL);
-        }
-        if(user.getPassword() == null || user.getPassword().isBlank()){
-            throw new CustomException(ConstantsErrorMessages.PASSWORD_CANNOT_BE_EMPTY);
-        }
-        if (user.getDocumentUser() != null && user.getPhoneNumberUser() != null
-                && user.getEmail() != null ){
-            user.setDocumentUser(ValidatorCases.sanitizeString(user.getDocumentUser()));
-            user.setPhoneNumberUser(ValidatorCases.sanitizeString(user.getPhoneNumberUser()));
-            user.setEmail(ValidatorCases.sanitizeString(user.getEmail()));
-        } else {
-            throw new CustomException("Document, phone number or email" + ConstantsErrorMessages.CANT_BE_NULL);
-        }
-        if(!ValidatorCases.isValidEmail(user.getEmail())){
-            throw new CustomException(ConstantsErrorMessages.INVALID_EMAIL_FORMAT);
-        }
-        if (!ValidatorCases.isValidPhone(user.getPhoneNumberUser())){
-            throw new CustomException(ConstantsErrorMessages.INVALID_PHONE_FORMAT);
-        }
-        if(!ValidatorCases.isValidDocument(user.getTypeDocumentUser(),user.getDocumentUser())){
-            throw new CustomException(ConstantsErrorMessages.INVALID_DOCUMENT_FORMAT);
-        }
-        if(!ValidatorCases.isAdult(user.getDateBirthUser())){
-            throw new CustomException(ConstantsErrorMessages.USER_UNDERAGE);
-        }
+    private void validateAdminCreator(String emailCreatorUser) {
+        ValidatorCases.validateEmail(emailCreatorUser)
+                .flatMap(email -> Optional.ofNullable(userPersistencePort.getUserByEmail(email)))
+                .filter(creator -> TypeRolEnum.ADMIN.name().equals(creator.getRol().getNameRol()))
+                .orElseThrow(() -> new CustomException(ConstantsErrorMessages.PERMISSION_DENIED));
+    }
+
+    private void validateOwnerRole(User user) {
+        Optional.ofNullable(user.getRol())
+                .map(rol -> rolServicePort.getRolByName(rol.getNameRol()))
+                .filter(rol -> TypeRolEnum.OWNER.name().equals(rol.getNameRol()))
+                .ifPresentOrElse(
+                        user::setRol,
+                        () -> {
+                            throw new CustomException(ConstantsErrorMessages.INVALID_ROLE);
+                        }
+                );
+    }
+
+    private void validateUserNames(User user) {
+        user.setNameUser(ValidatorCases.sanitize(user.getNameUser())
+                .orElseThrow(() -> new CustomException(ConstantsErrorMessages.NAME_CANT_BE_NULL)));
+        user.setLastNameUser(ValidatorCases.sanitize(user.getLastNameUser())
+                .orElseThrow(() -> new CustomException(ConstantsErrorMessages.LAST_NAME_CANT_BE_NULL)));
+    }
+
+    private void processValidateSaveUser(User user){
+        user.setEmail(ValidatorCases.validateEmail(user.getEmail())
+                .orElseThrow(() -> new CustomException(ConstantsErrorMessages.INVALID_EMAIL_FORMAT)));
+        user.setDocumentUser(ValidatorCases.validateDocumentNumber(TypeDocumentEnum.CC,user.getDocumentUser())
+                .orElseThrow(() -> new CustomException(ConstantsErrorMessages.INVALID_DOCUMENT_FORMAT)));
+        user.setPhoneNumberUser(ValidatorCases.validatePhoneNumber(user.getPhoneNumberUser())
+                .orElseThrow(() -> new CustomException(ConstantsErrorMessages.INVALID_PHONE_FORMAT)));
+        ValidatorCases.validateIsAdult(user.getDateBirthUser())
+                .orElseThrow(() -> new CustomException(ConstantsErrorMessages.USER_UNDERAGE));
+        user.setPassword(passwordService.encryptPassword(ValidatorCases.sanitize(user.getPassword())
+                .orElseThrow(() -> new CustomException(ConstantsErrorMessages.PASSWORD_CANNOT_BE_EMPTY))));
+        userPersistencePort.saveUserOwner(user);
     }
 
     @Override

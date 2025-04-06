@@ -4,44 +4,54 @@ import com.pragma.users.domain.model.TypeDocumentEnum;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Optional;
 
 public class ValidatorCases {
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
+    private static final String PHONE_REGEX = "^\\+?[0-9]{1,13}$";
+    private static final String NUMERIC_DOCUMENT_REGEX = "^[0-9]+$";
+    private static final String PASSPORT_REGEX = "^[A-Za-z0-9]+$";
+    private static final int LEGAL_AGE = 18;
+
+
     private ValidatorCases() {
     }
 
-    public static String sanitizeString(String input) {
-        return input == null ? null : input.trim();
+    /** This method sanitized any string*/
+    public static Optional<String> sanitize(String input) {
+        return Optional.ofNullable(input).map(String::trim).
+                filter(s -> !s.isEmpty());
     }
 
-    //Constantes para informar que hace el validador...
-    public static boolean isValidEmail(String email) {
-        if(email == null) {
-            return false;
-        }
-        return email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+
+    /**Regex to validate the email format*/
+    public static Optional<String> validateEmail(String email){
+        return sanitize(email)
+                .filter(e -> e.matches(EMAIL_REGEX));
     }
 
-    public static boolean isValidPhone(String phone) {
-        if(phone == null) {
-            return false;
-        }
-        return phone.matches("^\\+?[0-9]{1,13}$");
+    /**Regex to validate the phone number format*/
+    public static Optional<String> validatePhoneNumber(String phoneNumber){
+        return sanitize(phoneNumber)
+                .filter(e->e.matches(PHONE_REGEX));
     }
 
-    public static boolean isValidDocument(TypeDocumentEnum type, String document) {
-        if (document == null) {
-            return false;
-        }
-        return switch (type) {
-            case CC, CE, TI -> document.matches("^[0-9]+$");
-            case PS -> document.matches("^[A-Za-z0-9]+$");
-        };
+    /**Regex to validate document number format*/
+    public static Optional<String> validateDocumentNumber(TypeDocumentEnum typeDocument,
+                                                         String documentNumber){
+
+
+        return Optional.ofNullable(typeDocument)
+                .flatMap(t -> sanitize(documentNumber)
+                .filter(doc -> switch (t){
+                    case CC, CE, TI -> doc.matches(NUMERIC_DOCUMENT_REGEX);
+                    case PS -> doc.matches(PASSPORT_REGEX);
+                }));
     }
 
-    public static boolean isAdult(LocalDate dateOfBirth) {
-        if (dateOfBirth == null) {
-            return false;
-        }
-        return Period.between(dateOfBirth, LocalDate.now()).getYears() >= 18;
-        }
+    public static Optional<LocalDate> validateIsAdult(LocalDate dateOfBirth){
+        return Optional.ofNullable(dateOfBirth)
+                .filter(date ->
+                        Period.between(date, LocalDate.now()).getYears() >= LEGAL_AGE);
+    }
 }

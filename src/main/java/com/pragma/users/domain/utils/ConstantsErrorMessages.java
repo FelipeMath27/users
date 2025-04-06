@@ -1,4 +1,4 @@
-package com.pragma.users.infrastructure.exceptions;
+package com.pragma.users.domain.utils;
 
 public class ConstantsErrorMessages {
     public static final String PERMISSION_DENIED = "You do not have permission to create users.";
@@ -11,6 +11,8 @@ public class ConstantsErrorMessages {
     public static final String PASSWORD_CANNOT_BE_EMPTY = "Password cannot be null or empty";
     public static final String USER_NOT_FOUND = "User not found in the platform";
     public static final String CANT_BE_NULL = "This parameter can't be null";
+    public static final String NAME_CANT_BE_NULL = "User name can't be null";
+    public static final String LAST_NAME_CANT_BE_NULL = "User lastname can't be null";
     public static final String ADMIN_NOT_FOUND = "User admin not found in the system";
     public static final String USER_WITHOUT_ROLE = "This user has not role";
     public static final String INVALID_ROLE = "Invalid role to create de user";

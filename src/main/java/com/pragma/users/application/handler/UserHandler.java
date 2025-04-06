@@ -1,6 +1,5 @@
 package com.pragma.users.application.handler;
 
-import com.pragma.users.application.dto.RolDTOResponse;
 import com.pragma.users.application.dto.UserDTORequest;
 import com.pragma.users.application.dto.UserDTOResponse;
 import com.pragma.users.application.mapper.RolResponseMapper;
@@ -13,7 +12,7 @@ import com.pragma.users.domain.model.Rol;
 import com.pragma.users.domain.model.User;
 import com.pragma.users.domain.usecase.UseCaseUser;
 import com.pragma.users.domain.validator.ValidatorCases;
-import com.pragma.users.infrastructure.exceptions.ConstantsErrorMessages;
+import com.pragma.users.domain.utils.ConstantsErrorMessages;
 import com.pragma.users.infrastructure.exceptions.CustomException;
 
 import org.slf4j.Logger;

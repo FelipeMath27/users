@@ -1,6 +1,6 @@
 package com.pragma.users.infrastructure.security;
 
-import com.pragma.users.infrastructure.exceptions.ConstantsErrorMessages;
+import com.pragma.users.domain.utils.ConstantsErrorMessages;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

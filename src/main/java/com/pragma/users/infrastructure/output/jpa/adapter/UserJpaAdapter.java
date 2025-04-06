@@ -2,7 +2,7 @@ package com.pragma.users.infrastructure.output.jpa.adapter;
 
 import com.pragma.users.domain.model.User;
 import com.pragma.users.domain.spi.IUserPersistencePort;
-import com.pragma.users.infrastructure.exceptions.ConstantsErrorMessages;
+import com.pragma.users.domain.utils.ConstantsErrorMessages;
 import com.pragma.users.infrastructure.output.jpa.entity.UserEntity;
 import com.pragma.users.infrastructure.output.jpa.mapper.UserEntityMapper;
 import com.pragma.users.infrastructure.output.jpa.repository.IUserRepository;

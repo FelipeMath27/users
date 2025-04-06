@@ -7,7 +7,7 @@ import com.pragma.users.domain.model.TypeRolEnum;
 import com.pragma.users.domain.model.User;
 import com.pragma.users.domain.spi.IUserPersistencePort;
 import com.pragma.users.domain.usecase.UseCaseUser;
-import com.pragma.users.infrastructure.exceptions.ConstantsErrorMessages;
+import com.pragma.users.domain.utils.ConstantsErrorMessages;
 import com.pragma.users.infrastructure.exceptions.CustomException;
 import com.pragma.users.infrastructure.security.PasswordService;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.*;
 
 public class UserServiceTest {

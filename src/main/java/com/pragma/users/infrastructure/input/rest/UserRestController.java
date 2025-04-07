@@ -6,6 +6,7 @@ import com.pragma.users.application.dto.UserDTOResponse;
 import com.pragma.users.application.handler.IRolHandler;
 import com.pragma.users.application.handler.IUserHandler;
 import com.pragma.users.domain.usecase.UseCaseUser;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,16 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/users")
 public class UserRestController {
     private final IUserHandler userHandler;
 
     private static final Logger logger = LoggerFactory.getLogger(UseCaseUser.class);
-
-    public UserRestController(IUserHandler userHandler) {
-        this.userHandler = userHandler;
-    }
 
     @PostMapping("/create-owner")
     public ResponseEntity<Void> createOwnerUser(@RequestBody UserDTORequest userDTORequest,

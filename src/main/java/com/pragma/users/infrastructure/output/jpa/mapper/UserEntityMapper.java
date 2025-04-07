@@ -6,7 +6,6 @@ import com.pragma.users.infrastructure.output.jpa.entity.RolEntity;
 import com.pragma.users.infrastructure.output.jpa.entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",

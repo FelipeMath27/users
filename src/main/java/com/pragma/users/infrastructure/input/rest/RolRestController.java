@@ -3,6 +3,7 @@ package com.pragma.users.infrastructure.input.rest;
 import com.pragma.users.application.dto.RolDTOResponse;
 import com.pragma.users.application.handler.IRolHandler;
 import com.pragma.users.domain.usecase.UseCaseUser;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/roles")
 public class RolRestController {
     private final IRolHandler rolHandler;
 
     private static final Logger logger = LoggerFactory.getLogger(UseCaseUser.class);
-
-    public RolRestController(IRolHandler rolHandler) {
-        this.rolHandler = rolHandler;
-    }
 
     @GetMapping("/{nameRol}")
     public ResponseEntity<RolDTOResponse> getRolByName(@PathVariable String nameRol) {

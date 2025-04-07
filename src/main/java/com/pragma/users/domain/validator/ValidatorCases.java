@@ -49,6 +49,7 @@ public class ValidatorCases {
                 }));
     }
 
+    /**Regex to validate if the user is adult*/
     public static Optional<LocalDate> validateIsAdult(LocalDate dateOfBirth){
         return Optional.ofNullable(dateOfBirth)
                 .filter(date ->

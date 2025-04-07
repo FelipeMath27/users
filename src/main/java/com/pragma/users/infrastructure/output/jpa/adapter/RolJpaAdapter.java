@@ -6,6 +6,8 @@ import com.pragma.users.domain.utils.ConstantsErrorMessages;
 import com.pragma.users.infrastructure.output.jpa.entity.RolEntity;
 import com.pragma.users.infrastructure.output.jpa.mapper.RolEntityMapper;
 import com.pragma.users.infrastructure.output.jpa.repository.IRolRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,16 +17,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Component
+@RequiredArgsConstructor
+@Slf4j
 public class RolJpaAdapter implements IRolPersistencePort {
     private final IRolRepository iRolRepository;
     private final RolEntityMapper rolEntityMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(RolJpaAdapter.class);
-
-    public RolJpaAdapter(IRolRepository iRolRepository, RolEntityMapper rolEntityMapper) {
-        this.iRolRepository = iRolRepository;
-        this.rolEntityMapper = rolEntityMapper;
-    }
 
     @Override
     public void saveRol(Rol rol) {
@@ -34,9 +33,9 @@ public class RolJpaAdapter implements IRolPersistencePort {
 
     @Override
     public Rol getRolByName(String nameRol) {
-        logger.info("Buscando rol con nombre: {}", nameRol);
+        log.info("Buscando rol con nombre: {}", nameRol);
         Optional<RolEntity> rolEntityOptional = iRolRepository.findByNameRol(nameRol);
-        rolEntityOptional.ifPresent(entity -> logger.info("Rol encontrado: {}", entity));
+        rolEntityOptional.ifPresent(entity -> log.info("Rol encontrado: {}", entity));
         return rolEntityOptional.map(rolEntityMapper::toRol)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ConstantsErrorMessages.ROL_NOT_FOUND));
     }

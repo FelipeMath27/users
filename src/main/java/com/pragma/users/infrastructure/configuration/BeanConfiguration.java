@@ -11,22 +11,17 @@ import com.pragma.users.infrastructure.output.jpa.mapper.UserEntityMapper;
 import com.pragma.users.infrastructure.output.jpa.repository.IRolRepository;
 import com.pragma.users.infrastructure.output.jpa.repository.IUserRepository;
 import com.pragma.users.infrastructure.security.PasswordService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@RequiredArgsConstructor
 @Configuration
 public class BeanConfiguration {
     private final IUserRepository iuserRepository;
     private final UserEntityMapper userEntityMapper;
     private final RolEntityMapper rolEntityMapper;
     private final IRolRepository irolRepository;
-
-    public BeanConfiguration(IUserRepository iuserRepository, UserEntityMapper userEntityMapper, RolEntityMapper rolEntityMapper, IRolRepository irolRepository) {
-        this.iuserRepository = iuserRepository;
-        this.userEntityMapper = userEntityMapper;
-        this.rolEntityMapper = rolEntityMapper;
-        this.irolRepository = irolRepository;
-    }
 
     @Bean
     public IUserServicePort userServicePort(IUserPersistencePort iUserPersistencePort,

@@ -3,6 +3,7 @@ package com.pragma.users.domain.usecase;
 
 import com.pragma.users.domain.api.IRolServicePort;
 import com.pragma.users.domain.api.IUserServicePort;
+import com.pragma.users.domain.model.Rol;
 import com.pragma.users.domain.model.TypeDocumentEnum;
 import com.pragma.users.domain.model.TypeRolEnum;
 import com.pragma.users.domain.model.User;
@@ -11,13 +12,13 @@ import com.pragma.users.domain.validator.ValidatorCases;
 import com.pragma.users.domain.utils.ConstantsErrorMessages;
 import com.pragma.users.infrastructure.exceptions.CustomException;
 import com.pragma.users.infrastructure.security.PasswordService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.Optional;
 
-
+@Slf4j
 public class UseCaseUser implements IUserServicePort {
     private static final Logger logger = LoggerFactory.getLogger(UseCaseUser.class);
 
@@ -35,8 +36,11 @@ public class UseCaseUser implements IUserServicePort {
 
     @Override
     public void saveUserOwner(User newUser,String emailCreatorUser) {
+        log.info("Start to validate de creator user email");
         validateAdminCreator(emailCreatorUser);
+        log.info("Start to rol new owner user");
         validateOwnerRole(newUser);
+        log.info("start to validate de names (sanitized)");
         validateUserNames(newUser);
         processValidateSaveUser(newUser);
     }
@@ -50,11 +54,20 @@ public class UseCaseUser implements IUserServicePort {
 
     private void validateOwnerRole(User user) {
         Optional.ofNullable(user.getRol())
-                .map(rol -> rolServicePort.getRolByName(rol.getNameRol()))
-                .filter(rol -> TypeRolEnum.OWNER.name().equals(rol.getNameRol()))
+                .map(rol -> {
+                    Rol fetchedRol = rolServicePort.getRolByName(rol.getNameRol());
+                    logger.info("Fetched Rol: {}", fetchedRol.getNameRol());
+                    return fetchedRol;
+                })
+                .filter(rol -> {
+                    boolean isOwner = TypeRolEnum.OWNER.name().equals(rol.getNameRol());
+                    logger.info("Is Owner: {}", isOwner);
+                    return isOwner;
+                })
                 .ifPresentOrElse(
                         user::setRol,
                         () -> {
+                            logger.error("Invalid role for user: {}", user.getRol());
                             throw new CustomException(ConstantsErrorMessages.INVALID_ROLE);
                         }
                 );

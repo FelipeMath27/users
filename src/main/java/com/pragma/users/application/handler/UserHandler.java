@@ -15,15 +15,17 @@ import com.pragma.users.domain.validator.ValidatorCases;
 import com.pragma.users.domain.utils.ConstantsErrorMessages;
 import com.pragma.users.infrastructure.exceptions.CustomException;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-
 @Service
 @Transactional
+@RequiredArgsConstructor
+@Slf4j
 public class UserHandler implements IUserHandler{
 
     private static final Logger logger = LoggerFactory.getLogger(UseCaseUser.class);
@@ -34,36 +36,10 @@ public class UserHandler implements IUserHandler{
     private final IRolServicePort iRolServicePort;
     private final RolResponseMapper rolResponseMapper;
 
-    public UserHandler(IUserServicePort iUserServicePort, UserRequestMapper userRequestMapper,
-                       UserResponseMapper userResponseMapper, IRolServicePort iRolServicePort, RolResponseMapper rolResponseMapper) {
-        this.iUserServicePort = iUserServicePort;
-        this.userRequestMapper = userRequestMapper;
-        this.userResponseMapper = userResponseMapper;
-        this.iRolServicePort = iRolServicePort;
-        this.rolResponseMapper = rolResponseMapper;
-    }
-
     @Override
     public void saveUserDTOOwner(UserDTORequest userDTORq, String emailCreator) {
-        if(!ValidatorCases.isValidEmail(emailCreator) ||
-                !ValidatorCases.isValidEmail(userDTORq.getEmail())){
-            throw new CustomException(ConstantsErrorMessages.INVALID_EMAIL_FORMAT);
-        }
-        logger.info("Son validos el correo admi: {} y el correo nuevo {}", emailCreator, userDTORq.getEmail());
-        User creatorUser = iUserServicePort.getUser(emailCreator);
-        if (creatorUser == null){
-            throw new CustomException(ConstantsErrorMessages.USER_NOT_FOUND);
-        }
-        User newUser = userRequestMapper.toUser(userDTORq);
-        logger.info("se mapea el dto {} a usuario ignoranro el rol {}", userDTORq, newUser);
-        Rol userRol = iRolServicePort.getRolByName(userDTORq.getNameRol());
-        if (userRol == null) {
-            throw new CustomException(ConstantsErrorMessages.ROL_NOT_FOUND);
-        }
-        logger.info("Rol antes de ingresa a newUser {}", userRol);
-        newUser.setRol(userRol);
-        logger.info("Roll luetgo de ingresar a usr {}",newUser.getRol());
-        iUserServicePort.saveUserOwner(newUser,emailCreator);
+        log.info("The rol for the new owner is {}",userDTORq.getNameRol());
+        iUserServicePort.saveUserOwner(userRequestMapper.toUser(userDTORq),emailCreator);
     }
 
     @Override

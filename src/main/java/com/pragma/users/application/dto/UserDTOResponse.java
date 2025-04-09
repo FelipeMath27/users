@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString
 public class UserDTOResponse {
+    private Long idUser;
     private String nameUser;
     private String lastNameUser;
     private TypeDocumentEnum typeDocumentUser;

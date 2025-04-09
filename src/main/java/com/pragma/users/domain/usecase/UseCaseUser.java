@@ -41,7 +41,6 @@ public class UseCaseUser implements IUserServicePort {
         log.info("Start to rol new owner user");
         validateOwnerRole(newUser);
         log.info("start to validate de names (sanitized)");
-        validateUserNames(newUser);
         processValidateSaveUser(newUser);
     }
 
@@ -73,13 +72,6 @@ public class UseCaseUser implements IUserServicePort {
                 );
     }
 
-    private void validateUserNames(User user) {
-        user.setNameUser(ValidatorCases.sanitize(user.getNameUser())
-                .orElseThrow(() -> new CustomException(ConstantsErrorMessages.NAME_CANT_BE_NULL)));
-        user.setLastNameUser(ValidatorCases.sanitize(user.getLastNameUser())
-                .orElseThrow(() -> new CustomException(ConstantsErrorMessages.LAST_NAME_CANT_BE_NULL)));
-    }
-
     private void processValidateSaveUser(User user){
         user.setEmail(ValidatorCases.validateEmail(user.getEmail())
                 .orElseThrow(() -> new CustomException(ConstantsErrorMessages.INVALID_EMAIL_FORMAT)));
@@ -91,6 +83,10 @@ public class UseCaseUser implements IUserServicePort {
                 .orElseThrow(() -> new CustomException(ConstantsErrorMessages.USER_UNDERAGE));
         user.setPassword(passwordService.encryptPassword(ValidatorCases.sanitize(user.getPassword())
                 .orElseThrow(() -> new CustomException(ConstantsErrorMessages.PASSWORD_CANNOT_BE_EMPTY))));
+        user.setNameUser(ValidatorCases.sanitize(user.getNameUser())
+                .orElseThrow(() -> new CustomException(ConstantsErrorMessages.NAME_CANT_BE_NULL)));
+        user.setLastNameUser(ValidatorCases.sanitize(user.getLastNameUser())
+                .orElseThrow(() -> new CustomException(ConstantsErrorMessages.LAST_NAME_CANT_BE_NULL)));
         userPersistencePort.saveUserOwner(user);
     }
 

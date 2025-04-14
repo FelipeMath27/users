@@ -8,12 +8,8 @@ import com.pragma.users.application.mapper.UserResponseMapper;
 import com.pragma.users.domain.api.IRolServicePort;
 import com.pragma.users.domain.api.IUserServicePort;
 
-import com.pragma.users.domain.model.Rol;
-import com.pragma.users.domain.model.User;
 import com.pragma.users.domain.usecase.UseCaseUser;
-import com.pragma.users.domain.validator.ValidatorCases;
-import com.pragma.users.domain.utils.ConstantsErrorMessages;
-import com.pragma.users.infrastructure.exceptions.CustomException;
+
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,5 +1,6 @@
 package com.pragma.users.domain.utils;
 
+
 public class ConstantsErrorMessages {
     public static final String PERMISSION_DENIED = "You do not have permission to create users.";
     public static final String USER_UNDERAGE = "The user must be of legal age.";
@@ -16,6 +17,12 @@ public class ConstantsErrorMessages {
     public static final String ADMIN_NOT_FOUND = "User admin not found in the system";
     public static final String USER_WITHOUT_ROLE = "This user has not role";
     public static final String INVALID_ROLE = "Invalid role to create de user";
+
+
+    public static final String START_FLOW = "Start flow";
+    public static final String START_VALIDATE_CREATOR_USER = "Start to validate creator user";
+    public static final String START_VALIDATE_OWNER = "Start to validate owner user";
+    public static final String START_PROCESS_TO_VALIDATE_CONDITION = "Start process to validate requirements";
 
     private ConstantsErrorMessages() {
     }

@@ -39,8 +39,6 @@ public class ValidatorCases {
     /**Regex to validate document number format*/
     public static Optional<String> validateDocumentNumber(TypeDocumentEnum typeDocument,
                                                          String documentNumber){
-
-
         return Optional.ofNullable(typeDocument)
                 .flatMap(t -> sanitize(documentNumber)
                 .filter(doc -> switch (t){

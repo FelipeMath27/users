@@ -6,7 +6,9 @@ import com.pragma.users.application.dto.UserDTOResponse;
 import com.pragma.users.application.handler.IRolHandler;
 import com.pragma.users.application.handler.IUserHandler;
 import com.pragma.users.domain.usecase.UseCaseUser;
+import com.pragma.users.domain.utils.ConstantsErrorMessages;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ import org.slf4j.LoggerFactory;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/users")
+@Slf4j
 public class UserRestController {
     private final IUserHandler userHandler;
 
@@ -26,13 +29,14 @@ public class UserRestController {
     @PostMapping("/create-owner")
     public ResponseEntity<Void> createOwnerUser(@RequestBody UserDTORequest userDTORequest,
                                                 @RequestHeader String emailCreator){
+        log.info(ConstantsErrorMessages.LISTENER_OK_CONTROLLER);
         userHandler.saveUserDTOOwner(userDTORequest,emailCreator);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{email}")
     public ResponseEntity<UserDTOResponse> getUserByEmail(@PathVariable String email) {
-        logger.info("Petición para obtener usuario con email: {}", email);
+        log.info(ConstantsErrorMessages.LISTENER_OK_CONTROLLER);
         UserDTOResponse userDTOResponse = userHandler.getUserDTO(email);
         logger.info("Respuesta del usuario: {}", userDTOResponse);
         return ResponseEntity.ok(userDTOResponse);
@@ -40,6 +44,7 @@ public class UserRestController {
 
     @GetMapping("/id/{idUser}")
     public ResponseEntity<UserDTOResponse> getUserById(@PathVariable Long idUser) {
+        log.info(ConstantsErrorMessages.LISTENER_OK_CONTROLLER);
         UserDTOResponse userDTOResponse = userHandler.getUserDTOById(idUser);
         return ResponseEntity.ok(userDTOResponse);
     }

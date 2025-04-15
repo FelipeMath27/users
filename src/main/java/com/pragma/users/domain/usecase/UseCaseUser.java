@@ -34,6 +34,7 @@ public class UseCaseUser implements IUserServicePort {
         validateAdminCreator(emailCreatorUser);
         validateOwnerRole(newUser);
         processValidateSaveUser(newUser);
+        log.info(ConstantsErrorMessages.END_SUCCESSFUL_FLOW);
     }
 
     private void validateAdminCreator(String emailCreatorUser) {

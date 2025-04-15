@@ -11,6 +11,7 @@ import com.pragma.users.domain.api.IUserServicePort;
 import com.pragma.users.domain.usecase.UseCaseUser;
 
 
+import com.pragma.users.domain.utils.ConstantsErrorMessages;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ public class UserHandler implements IUserHandler{
 
     @Override
     public void saveUserDTOOwner(UserDTORequest userDTORq, String emailCreator) {
-        log.info("The rol for the new owner is {}",userDTORq.getNameRol());
+        log.info(ConstantsErrorMessages.START_TO_CREATE_OWNER + "{}",userDTORq.getNameRol());
         iUserServicePort.saveUserOwner(userRequestMapper.toUser(userDTORq),emailCreator);
     }
 

@@ -13,7 +13,7 @@ import org.mapstruct.ReportingPolicy;
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface UserEntityMapper {
 
-    @Mapping(source = "rol.idRol", target = "rolEntity.idRol")
+    @Mapping(source = "rol", target = "rolEntity")
     UserEntity toUserEntity(User user);
 
     @Mapping(source = "rolEntity", target = "rol")

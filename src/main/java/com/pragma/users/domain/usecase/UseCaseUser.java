@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -79,6 +78,7 @@ public class UseCaseUser implements IUserServicePort {
                                 log.error(ConstantsErrorMessages.ROL_NOT_FOUND);
                                 return new CustomException(ConstantsErrorMessages.ROL_NOT_FOUND);
                             });
+                    user.setRol(fetchRol);
                     log.info(fetchRol.getNameRol());
                     return fetchRol;
                 }).filter(rol -> {

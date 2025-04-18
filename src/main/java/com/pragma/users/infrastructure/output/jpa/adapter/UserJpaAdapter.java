@@ -30,7 +30,7 @@ public class UserJpaAdapter implements IUserPersistencePort {
             UserEntity userEntity = userEntityMapper.toUserEntity(user);
             userRepository.save(userEntity);
         } catch (DataAccessException | PersistenceException ex){
-            throw new InfrastructureException("Failed to save the new owner", ex);
+            throw new InfrastructureException(ConstantsErrorMessages.USER_NOT_SAVED, ex);
         }
     }
 

@@ -39,13 +39,13 @@ public class UserServiceTest {
     @InjectMocks
     private UseCaseUser useCaseUser;
 
-    private Rol ownerRol;
+    private Rol ownerRol,adminRol;
     private User creatorUser, newUserOwner;
 
     @BeforeEach
     void setUp(){
         MockitoAnnotations.openMocks(this);
-        Rol adminRol = new Rol(1L, TypeRolEnum.ADMIN.name(), "Admin role");
+        adminRol = new Rol(1L, TypeRolEnum.ADMIN.name(), "Admin role");
         creatorUser = new User(1L,"Tania","Supelano",
                 TypeDocumentEnum.CC,"1019","+57312501",
                 LocalDate.of(1992,9,8),"tania@gmail.com",
@@ -55,17 +55,37 @@ public class UserServiceTest {
                 TypeDocumentEnum.CC,"1015","+57314221",
                 LocalDate.of(1994,5,27),"felipe@gmail.com",
                 "owner123",ownerRol);
+        when(iUserPersistencePort.getUserByEmail(anyString())).thenReturn(creatorUser);
+        when(rolServicePort.getRolByName(anyString())).thenReturn(ownerRol);
+        when(passwordService.encryptPassword(anyString())).thenReturn("encryptedPassword");
     }
 
     @Test
     void test_Create_owner(){
-        when(iUserPersistencePort.getUserByEmail(anyString())).thenReturn(creatorUser);
-        when(rolServicePort.getRolByName(anyString())).thenReturn(ownerRol);
-        when(passwordService.encryptPassword(anyString())).thenReturn("encryptedPassword");
         useCaseUser.saveUserOwner(newUserOwner,creatorUser.getEmail());
         verify(iUserPersistencePort, times(1)).saveUserOwner(any(User.class));
     }
 
+    @Test
+    void test_email_admin_null(){
+        creatorUser.setEmail(null);
+        CustomException exception = assertThrows(CustomException.class,()->{
+            useCaseUser.saveUserOwner(newUserOwner,creatorUser.getEmail());
+        });
+        assertEquals(ConstantsErrorMessages.ADMIN_NOT_FOUND,exception.getMessage());
+        verify(iUserPersistencePort,never()).saveUserOwner(any(User.class));
+    }
+
+    @Test
+    void test_creator_owner_isNot_Admin(){
+        Rol emp = new Rol(3L,TypeRolEnum.CLIENT.name(), "Client rol");
+        creatorUser.setRol(emp);
+        CustomException exception = assertThrows(CustomException.class,()->{
+            useCaseUser.saveUserOwner(newUserOwner,creatorUser.getEmail());
+        });
+        assertEquals(ConstantsErrorMessages.PERMISSION_DENIED,exception.getMessage());
+        verify(iUserPersistencePort,never()).saveUserOwner(any(User.class));
+    }
 
 }
 

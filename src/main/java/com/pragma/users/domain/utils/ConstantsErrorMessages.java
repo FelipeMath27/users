@@ -9,6 +9,12 @@ public class ConstantsErrorMessages {
     public static final String USER_NOT_FOUND = "User not found in the platform";
     public static final String ADMIN_NOT_FOUND = "User admin not found in the system";
     public static final String USER_WITHOUT_ROLE = "This user has not role";
+    public static final String USER_NOT_SAVED = "User not saved in the system";
+
+    /**Constant to Rol*/
+    public static final String ROL_REQUIRED = "No role was provided for the creator user.";
+    public static final String ROL_NOT_FOUND = "The rol provided is not exist";
+    public static final String INVALID_ROLE = "Invalid role to create de user";
 
     /**Parameters*/
     public static final String INVALID_EMAIL_FORMAT = "The email is not in a valid format.";
@@ -17,11 +23,6 @@ public class ConstantsErrorMessages {
     public static final String PASSWORD_CANNOT_BE_EMPTY = "Password cannot be null or empty";
     public static final String NAME_CANT_BE_NULL = "User name can't be null";
     public static final String LAST_NAME_CANT_BE_NULL = "User lastname can't be null";
-
-    /**Constants to rol*/
-    public static final String ROL_REQUIRED = "No role was provided for the creator user.";
-    public static final String ROL_NOT_FOUND = "The rol provided is not exist";
-    public static final String INVALID_ROLE = "Invalid role to create de user";
 
     /**General constants*/
     public static final String CANT_BE_NULL = "This parameter can't be null";

@@ -23,7 +23,6 @@ public class ValidatorCases {
                 filter(s -> !s.isEmpty());
     }
 
-
     /**Regex to validate the email format*/
     public static Optional<String> validateEmail(String email){
         return sanitize(email)

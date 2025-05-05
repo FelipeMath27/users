@@ -34,9 +34,9 @@ public class UserHandler implements IUserHandler{
     private final RolResponseMapper rolResponseMapper;
 
     @Override
-    public void saveUserDTOOwner(UserDTORequest userDTORq, String emailCreator) {
+    public void saveUserDTOOwner(UserDTORequest userDTORq) {
         log.info(ConstantsErrorMessages.START_TO_CREATE_OWNER + "{}",userDTORq.getNameRol());
-        iUserServicePort.saveUserOwner(userRequestMapper.toUser(userDTORq),emailCreator);
+        iUserServicePort.saveUserOwner(userRequestMapper.toUser(userDTORq));
     }
 
     @Override
@@ -47,5 +47,11 @@ public class UserHandler implements IUserHandler{
     @Override
     public UserDTOResponse getUserDTOById(Long idUser) {
         return userResponseMapper.toUserDtoResponse(iUserServicePort.getUserById(idUser));
+    }
+
+    @Override
+    public void saveAdmin(UserDTORequest userDTORequest) {
+        log.info(ConstantsErrorMessages.START_TO_CREATE_ADMIN + "{}",userDTORequest.getNameRol());
+        iUserServicePort.saveAdmin(userRequestMapper.toUser(userDTORequest));
     }
 }

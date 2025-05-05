@@ -35,6 +35,21 @@ public class ConstantsErrorMessages {
     public static final String END_SUCCESSFUL_FLOW = "End flow successful";
     public static final String START_TO_CREATE_OWNER = "Start process to create a new owner";
     public static final String LISTENER_OK_CONTROLLER = "Controller listen to the HTTP method OK";
+    public static final String START_TO_CREATE_ADMIN = "Start process to create a new admin";
+
+
+    /**Authentication constant*/
+
+    public static final String START_AUTHENTICATION_FLOW = "Handler get the request to authentication";
+    public static final String ERROR_TO_VERIFY_PASSWORD = "Incorrect password, try again";
+    public static final String ERROR_TO_GENERATE_TOKEN = "There is a problem to generate a new token";
+    public static final String EXPIRED_TOKEN = "Token has expired";
+    public static final String ERROR_TO_VALIDATE_TOKEN = "There is a error to validate token JWT";
+    public static final String VALID_TOKEN = "This JWT token is valid";
+    public static final String CONSTANT_HEADER_AUTHENTICATION = "Authorization";
+    public static final String BEARER_PREFIX = "Bearer ";
+    public static final int BEARER_SUBSTRING = 7;
+
 
     private ConstantsErrorMessages() {
     }

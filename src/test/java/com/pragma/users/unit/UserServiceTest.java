@@ -62,7 +62,7 @@ public class UserServiceTest {
 
     @Test
     void test_Create_owner(){
-        useCaseUser.saveUserOwner(newUserOwner,creatorUser.getEmail());
+        useCaseUser.saveUserOwner(newUserOwner);
         verify(iUserPersistencePort, times(1)).saveUserOwner(any(User.class));
     }
 
@@ -70,7 +70,7 @@ public class UserServiceTest {
     void test_email_admin_null(){
         creatorUser.setEmail(null);
         CustomException exception = assertThrows(CustomException.class,()->{
-            useCaseUser.saveUserOwner(newUserOwner,creatorUser.getEmail());
+            useCaseUser.saveUserOwner(newUserOwner);
         });
         assertEquals(ConstantsErrorMessages.ADMIN_NOT_FOUND,exception.getMessage());
         verify(iUserPersistencePort,never()).saveUserOwner(any(User.class));
@@ -81,7 +81,7 @@ public class UserServiceTest {
         Rol emp = new Rol(3L,TypeRolEnum.CLIENT.name(), "Client rol");
         creatorUser.setRol(emp);
         CustomException exception = assertThrows(CustomException.class,()->{
-            useCaseUser.saveUserOwner(newUserOwner,creatorUser.getEmail());
+            useCaseUser.saveUserOwner(newUserOwner);
         });
         assertEquals(ConstantsErrorMessages.PERMISSION_DENIED,exception.getMessage());
         verify(iUserPersistencePort,never()).saveUserOwner(any(User.class));

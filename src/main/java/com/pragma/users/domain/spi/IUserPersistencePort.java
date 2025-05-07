@@ -8,4 +8,6 @@ public interface IUserPersistencePort {
     User getUserByEmail(String email);
 
     User getUserById(Long idUser);
+
+    void saveAdmin(User user);
 }

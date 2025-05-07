@@ -11,13 +11,13 @@ import com.pragma.users.domain.spi.IUserPersistencePort;
 import com.pragma.users.domain.validator.ValidatorCases;
 import com.pragma.users.domain.utils.ConstantsErrorMessages;
 import com.pragma.users.infrastructure.exceptions.CustomException;
+import com.pragma.users.infrastructure.security.IPasswordService;
 import com.pragma.users.infrastructure.security.PasswordService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 import java.util.Optional;
 
@@ -28,12 +28,11 @@ public class UseCaseUser implements IUserServicePort {
 
     private final IUserPersistencePort userPersistencePort;
     private final IRolServicePort rolServicePort;
-    private final PasswordService passwordService;
+    private final IPasswordService passwordService;
 
     @Override
-    public void saveUserOwner(User newUser,String emailCreatorUser) {
+    public void saveUserOwner(User newUser) {
         log.info(ConstantsErrorMessages.START_FLOW);
-        validateAdminCreator(emailCreatorUser);
         validateOwnerRole(newUser);
         processValidateSaveUser(newUser);
         log.info(ConstantsErrorMessages.END_SUCCESSFUL_FLOW);
@@ -79,6 +78,7 @@ public class UseCaseUser implements IUserServicePort {
                                 log.error(ConstantsErrorMessages.ROL_NOT_FOUND);
                                 return new CustomException(ConstantsErrorMessages.ROL_NOT_FOUND);
                             });
+                    user.setRol(fetchRol);
                     log.info(fetchRol.getNameRol());
                     return fetchRol;
                 }).filter(rol -> {
@@ -125,5 +125,12 @@ public class UseCaseUser implements IUserServicePort {
                 .filter(id -> id > 0)
                 .map(userPersistencePort::getUserById)
                 .orElseThrow(() -> new CustomException(ConstantsErrorMessages.CANT_BE_NULL));
+    }
+
+    @Override
+    public void saveAdmin(User user) {
+        log.info(ConstantsErrorMessages.START_FLOW);
+        userPersistencePort.saveAdmin(user);
+        log.info(ConstantsErrorMessages.END_SUCCESSFUL_FLOW);
     }
 }

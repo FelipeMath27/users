@@ -27,10 +27,9 @@ public class UserRestController {
     private static final Logger logger = LoggerFactory.getLogger(UseCaseUser.class);
 
     @PostMapping("/create-owner")
-    public ResponseEntity<Void> createOwnerUser(@RequestBody UserDTORequest userDTORequest,
-                                                @RequestHeader String emailCreator){
+    public ResponseEntity<Void> createOwnerUser(@RequestBody UserDTORequest userDTORequest){
         log.info(ConstantsErrorMessages.LISTENER_OK_CONTROLLER);
-        userHandler.saveUserDTOOwner(userDTORequest,emailCreator);
+        userHandler.saveUserDTOOwner(userDTORequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -47,6 +46,13 @@ public class UserRestController {
         log.info(ConstantsErrorMessages.LISTENER_OK_CONTROLLER);
         UserDTOResponse userDTOResponse = userHandler.getUserDTOById(idUser);
         return ResponseEntity.ok(userDTOResponse);
+    }
+
+    @PostMapping("/create-admin")
+    public ResponseEntity<Void> createAdmin(@RequestBody UserDTORequest userDTORequest){
+        log.info(ConstantsErrorMessages.LISTENER_OK_CONTROLLER);
+        userHandler.saveAdmin(userDTORequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 

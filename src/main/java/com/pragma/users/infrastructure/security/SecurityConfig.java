@@ -37,6 +37,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/users/create-employee").hasRole(TypeRolEnum.OWNER.name())
                         .requestMatchers("/users/**").hasRole(TypeRolEnum.ADMIN.name())
                         .anyRequest().authenticated()
                 )

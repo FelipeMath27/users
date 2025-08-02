@@ -41,7 +41,7 @@ public class UserHandler implements IUserHandler{
 
     @Override
     public UserDTOResponse getUserDTO(String email) {
-        return userResponseMapper.toUserDtoResponse(iUserServicePort.getUser(email));
+        return userResponseMapper.toUserDtoResponse(iUserServicePort.getUserByEmail(email));
     }
 
     @Override
@@ -50,8 +50,8 @@ public class UserHandler implements IUserHandler{
     }
 
     @Override
-    public void saveAdmin(UserDTORequest userDTORequest) {
-        log.info(ConstantsErrorMessages.START_TO_CREATE_ADMIN + "{}",userDTORequest.getNameRol());
-        iUserServicePort.saveAdmin(userRequestMapper.toUser(userDTORequest));
+    public void saveGeneralUser(UserDTORequest userDTORequest) {
+        log.info(ConstantsErrorMessages.START_FLOW + "{}",userDTORequest.getNameRol());
+        iUserServicePort.saveEmployeeUser(userRequestMapper.toUser(userDTORequest));
     }
 }

@@ -25,7 +25,7 @@ public class UserJpaAdapter implements IUserPersistencePort {
     private final UserEntityMapper userEntityMapper;
 
     @Override
-    public void saveUserOwner(User user) {
+    public void save(User user) {
         try {
             UserEntity userEntity = userEntityMapper.toUserEntity(user);
             userRepository.save(userEntity);
@@ -35,25 +35,17 @@ public class UserJpaAdapter implements IUserPersistencePort {
     }
 
     @Override
-    public User getUserByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         Optional<UserEntity> userEntityOptional = userRepository.findByEmail(email);
-        return userEntityOptional.map(userEntityMapper::toUser).
-                orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,ConstantsErrorMessages.USER_NOT_FOUND));
+        return Optional.ofNullable(userEntityOptional.map(userEntityMapper::toUser).
+                orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ConstantsErrorMessages.USER_NOT_FOUND)));
     }
 
     @Override
-    public User getUserById(Long idUser) {
+    public Optional<User> findById(Long idUser) {
         Optional<UserEntity> userEntityOptional = userRepository.findById(idUser);
-        return userEntityOptional.map(userEntityMapper::toUser).
-                orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,ConstantsErrorMessages.USER_NOT_FOUND));
+        return Optional.ofNullable(userEntityOptional.map(userEntityMapper::toUser).
+                orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ConstantsErrorMessages.USER_NOT_FOUND)));
     }
 
-    @Override
-    public void saveAdmin(User user) {
-        try {
-            userRepository.save(userEntityMapper.toUserEntity(user));
-        } catch (DataAccessException | PersistenceException ex){
-            throw new InfrastructureException(ConstantsErrorMessages.USER_NOT_SAVED, ex);
-        }
-    }
 }

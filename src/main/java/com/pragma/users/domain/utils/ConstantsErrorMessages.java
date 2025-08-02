@@ -26,6 +26,7 @@ public class ConstantsErrorMessages {
 
     /**General constants*/
     public static final String CANT_BE_NULL = "This parameter can't be null";
+    public static final String INVALID_ID = "This id is invalid";
 
     /**Constants to logs*/
     public static final String START_FLOW = "Start flow";
@@ -36,6 +37,7 @@ public class ConstantsErrorMessages {
     public static final String START_TO_CREATE_OWNER = "Start process to create a new owner";
     public static final String LISTENER_OK_CONTROLLER = "Controller listen to the HTTP method OK";
     public static final String START_TO_CREATE_ADMIN = "Start process to create a new admin";
+    public static final String START_VALIDATE_EMPLOYEE = "Start to validate rol employee";
 
 
     /**Authentication constant*/
@@ -49,7 +51,6 @@ public class ConstantsErrorMessages {
     public static final String CONSTANT_HEADER_AUTHENTICATION = "Authorization";
     public static final String BEARER_PREFIX = "Bearer ";
     public static final int BEARER_SUBSTRING = 7;
-
 
     private ConstantsErrorMessages() {
     }

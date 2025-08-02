@@ -17,15 +17,17 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
-import java.time.Period;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-public class UserServiceTest {
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+
+class UserServiceTest {
 
     @Mock
     private IUserPersistencePort iUserPersistencePort;
@@ -39,23 +41,25 @@ public class UserServiceTest {
     @InjectMocks
     private UseCaseUser useCaseUser;
 
-    private Rol ownerRol,adminRol;
-    private User creatorUser, newUserOwner;
+    private User newUserOwner, creatorUser;
+    private Rol adminRol, ownerRol;
+
+    private CustomException customException;
 
     @BeforeEach
     void setUp(){
         MockitoAnnotations.openMocks(this);
         adminRol = new Rol(1L, TypeRolEnum.ADMIN.name(), "Admin role");
-        creatorUser = new User(1L,"Tania","Supelano",
-                TypeDocumentEnum.CC,"1019","+57312501",
-                LocalDate.of(1992,9,8),"tania@gmail.com",
+        creatorUser = new User(1L, "Tania", "Supelano",
+                TypeDocumentEnum.CC, "1019", "+57312501",
+                LocalDate.of(1992, 9, 8), "tania@gmail.com",
                 "admin123", adminRol);
-        ownerRol = new Rol(2L,TypeRolEnum.OWNER.name(),"Owner Rol");
+        ownerRol = new Rol(2L, TypeRolEnum.OWNER.name(), "Owner Rol");
         newUserOwner = new User(2L,"Felipe","Supelano",
                 TypeDocumentEnum.CC,"1015","+57314221",
                 LocalDate.of(1994,5,27),"felipe@gmail.com",
-                "owner123",ownerRol);
-        when(iUserPersistencePort.getUserByEmail(anyString())).thenReturn(creatorUser);
+                "owner123", ownerRol);
+        when(iUserPersistencePort.findByEmail(anyString())).thenReturn(Optional.of(creatorUser));
         when(rolServicePort.getRolByName(anyString())).thenReturn(ownerRol);
         when(passwordService.encryptPassword(anyString())).thenReturn("encryptedPassword");
     }
@@ -63,29 +67,44 @@ public class UserServiceTest {
     @Test
     void test_Create_owner(){
         useCaseUser.saveUserOwner(newUserOwner);
-        verify(iUserPersistencePort, times(1)).saveUserOwner(any(User.class));
+        verify(iUserPersistencePort, times(1)).save(any(User.class));
     }
 
     @Test
-    void test_email_admin_null(){
-        creatorUser.setEmail(null);
-        CustomException exception = assertThrows(CustomException.class,()->{
-            useCaseUser.saveUserOwner(newUserOwner);
-        });
-        assertEquals(ConstantsErrorMessages.ADMIN_NOT_FOUND,exception.getMessage());
-        verify(iUserPersistencePort,never()).saveUserOwner(any(User.class));
+    void test_exception_whenSomeFieldIsNull(){
+        creatorUser.setNameUser(null);
+        verify(iUserPersistencePort, never()).save(any(User.class));
+        customException = assertThrows(CustomException.class, () -> useCaseUser.saveUserOwner(creatorUser));
+        assertEquals(ConstantsErrorMessages.NAME_CANT_BE_NULL, customException.getMessage());
     }
 
     @Test
-    void test_creator_owner_isNot_Admin(){
-        Rol emp = new Rol(3L,TypeRolEnum.CLIENT.name(), "Client rol");
-        creatorUser.setRol(emp);
-        CustomException exception = assertThrows(CustomException.class,()->{
-            useCaseUser.saveUserOwner(newUserOwner);
-        });
-        assertEquals(ConstantsErrorMessages.PERMISSION_DENIED,exception.getMessage());
-        verify(iUserPersistencePort,never()).saveUserOwner(any(User.class));
+    void test_exception_whenIsNotAdult(){
+        creatorUser.setDateBirthUser(LocalDate.of(2009,1,1));
+        customException = assertThrows(CustomException.class, () -> useCaseUser.saveUserOwner(creatorUser));
+        assertEquals(ConstantsErrorMessages.USER_UNDERAGE, customException.getMessage());
     }
+
+   @Test
+   void test_exception_whenEmailHasWrongFormat(){
+        creatorUser.setEmail("Felipecomfelipe.");
+        customException = assertThrows(CustomException.class, () -> useCaseUser.saveUserOwner(creatorUser));
+        assertEquals(ConstantsErrorMessages.INVALID_EMAIL_FORMAT, customException.getMessage());
+   }
+
+   @Test
+    void test_exception_whenFormatPhoneNumberIsInvalid(){
+        creatorUser.setPhoneNumberUser("+012231232");
+        customException = assertThrows(CustomException.class, () -> useCaseUser.saveUserOwner(creatorUser));
+        assertEquals(ConstantsErrorMessages.INVALID_PHONE_FORMAT,customException.getMessage());
+   }
+
+   @Test
+    void test_exception_whenDocumentIsInvalid(){
+        creatorUser.setDocumentUser("AB21312");
+        customException = assertThrows(CustomException.class, () -> useCaseUser.saveUserOwner(creatorUser));
+        assertEquals(ConstantsErrorMessages.INVALID_DOCUMENT_FORMAT,customException.getMessage());
+   }
 
 }
 

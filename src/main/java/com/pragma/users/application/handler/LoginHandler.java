@@ -22,7 +22,7 @@ public class LoginHandler implements ILoginHandler {
     public LoginDTOResponse authenticationUser(LoginDTORequest loginDTORequest) {
         log.info(ConstantsErrorMessages.START_AUTHENTICATION_FLOW);
         String token = iAuthenticationServicePort.login(loginDTORequest.getEmail(),loginDTORequest.getPassword());
-        String nameRol = iUserServicePort.getUser(loginDTORequest.getEmail()).getRol().getNameRol();
+        String nameRol = iUserServicePort.getUserByEmail(loginDTORequest.getEmail()).getRol().getNameRol();
         return new LoginDTOResponse(token,nameRol);
     }
 }

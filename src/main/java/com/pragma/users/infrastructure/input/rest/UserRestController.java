@@ -24,8 +24,6 @@ import org.slf4j.LoggerFactory;
 public class UserRestController {
     private final IUserHandler userHandler;
 
-    private static final Logger logger = LoggerFactory.getLogger(UseCaseUser.class);
-
     @PostMapping("/create-owner")
     public ResponseEntity<Void> createOwnerUser(@RequestBody UserDTORequest userDTORequest){
         log.info(ConstantsErrorMessages.LISTENER_OK_CONTROLLER);
@@ -37,7 +35,7 @@ public class UserRestController {
     public ResponseEntity<UserDTOResponse> getUserByEmail(@PathVariable String email) {
         log.info(ConstantsErrorMessages.LISTENER_OK_CONTROLLER);
         UserDTOResponse userDTOResponse = userHandler.getUserDTO(email);
-        logger.info("Respuesta del usuario: {}", userDTOResponse);
+        log.info("Respuesta del usuario: {}", userDTOResponse);
         return ResponseEntity.ok(userDTOResponse);
     }
 
@@ -51,9 +49,15 @@ public class UserRestController {
     @PostMapping("/create-admin")
     public ResponseEntity<Void> createAdmin(@RequestBody UserDTORequest userDTORequest){
         log.info(ConstantsErrorMessages.LISTENER_OK_CONTROLLER);
-        userHandler.saveAdmin(userDTORequest);
+        userHandler.saveGeneralUser(userDTORequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PostMapping("/create-employee")
+    public ResponseEntity<Void> createEmployee(@RequestBody UserDTORequest userDTORequest){
+        log.info(ConstantsErrorMessages.LISTENER_OK_CONTROLLER);
+        userHandler.saveGeneralUser(userDTORequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 
 }

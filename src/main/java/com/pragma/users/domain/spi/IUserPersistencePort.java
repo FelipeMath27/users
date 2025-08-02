@@ -2,12 +2,10 @@ package com.pragma.users.domain.spi;
 
 import com.pragma.users.domain.model.User;
 
+import java.util.Optional;
+
 public interface IUserPersistencePort {
-    void saveUserOwner(User user);
-
-    User getUserByEmail(String email);
-
-    User getUserById(Long idUser);
-
-    void saveAdmin(User user);
+    void save(User user);
+    Optional<User> findByEmail(String email);
+    Optional<User> findById(Long idUser);
 }

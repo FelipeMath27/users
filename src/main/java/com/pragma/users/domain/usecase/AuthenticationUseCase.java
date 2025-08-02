@@ -11,9 +11,6 @@ import com.pragma.users.infrastructure.security.IPasswordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Optional;
-
-
 @RequiredArgsConstructor
 @Slf4j
 public class AuthenticationUseCase implements IAuthenticationServicePort {
@@ -27,7 +24,7 @@ public class AuthenticationUseCase implements IAuthenticationServicePort {
         log.info(ConstantsErrorMessages.START_AUTHENTICATION_FLOW);
         ValidatorCases.validateEmail(email)
                 .orElseThrow(()-> new CustomException(ConstantsErrorMessages.INVALID_EMAIL_FORMAT));
-      User user = Optional.ofNullable(iUserPersistencePort.getUserByEmail(email))
+      User user = iUserPersistencePort.findByEmail(email)
               .orElseThrow(()->{
                   log.error(ConstantsErrorMessages.USER_NOT_FOUND);
                   return new CustomException(ConstantsErrorMessages.USER_NOT_FOUND);

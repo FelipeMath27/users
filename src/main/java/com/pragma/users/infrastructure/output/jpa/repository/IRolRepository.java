@@ -12,4 +12,4 @@ public interface IRolRepository extends JpaRepository<RolEntity, Long> {
     Optional<RolEntity> findByNameRol(@Param("nameRol")String nameRol);
 
     Optional<RolEntity> findByIdRol(@Param("idRol") Long idRol);
-}
+} 

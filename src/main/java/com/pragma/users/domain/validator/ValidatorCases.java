@@ -7,8 +7,8 @@ import java.time.Period;
 import java.util.Optional;
 
 public class ValidatorCases {
-    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
-    private static final String PHONE_REGEX = "^\\+?[0-9]{1,13}$";
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.com(\\.co)?$";
+    private static final String PHONE_REGEX = "^\\+57\\d{10}$";
     private static final String NUMERIC_DOCUMENT_REGEX = "^[0-9]+$";
     private static final String PASSPORT_REGEX = "^[A-Za-z0-9]+$";
     private static final int LEGAL_AGE = 18;

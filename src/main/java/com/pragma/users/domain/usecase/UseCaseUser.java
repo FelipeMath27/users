@@ -35,38 +35,6 @@ public class UseCaseUser implements IUserServicePort {
         log.info(ConstantsErrorMessages.END_SUCCESSFUL_FLOW);
     }
 
-    /**
-    private void validateAdminCreator(String emailCreatorUser) {
-        log.info(ConstantsErrorMessages.START_VALIDATE_CREATOR_USER);
-        Optional.ofNullable(emailCreatorUser)
-                .flatMap(email -> {
-                    return ValidatorCases.validateEmail(email)
-                            .or(()->{
-                                log.error(ConstantsErrorMessages.INVALID_EMAIL_FORMAT);
-                                throw new CustomException((ConstantsErrorMessages.INVALID_EMAIL_FORMAT));
-                            });
-                })
-                .map(email -> {
-                    return userPersistencePort.findByEmail(email)
-                            .orElseThrow(()->{
-                                log.error(ConstantsErrorMessages.USER_NOT_FOUND);
-                                return new CustomException(ConstantsErrorMessages.USER_NOT_FOUND);
-                            });
-                })
-                .filter(user -> {
-                    boolean isAdmin = TypeRolEnum.ADMIN.name().equals(user.getRol().getNameRol());
-                    if(!isAdmin){
-                        log.error(ConstantsErrorMessages.PERMISSION_DENIED);
-                        throw new CustomException(ConstantsErrorMessages.PERMISSION_DENIED);
-                    }
-                    return true;
-                })
-                .orElseThrow(()->{
-                    log.error(ConstantsErrorMessages.ADMIN_NOT_FOUND);
-                    return new CustomException(ConstantsErrorMessages.ADMIN_NOT_FOUND);
-                });
-    }*/
-
     private void validateOwnerRole(User user) {
         log.info(ConstantsErrorMessages.START_VALIDATE_OWNER);
         Optional.ofNullable(user.getRol())
@@ -159,5 +127,11 @@ public class UseCaseUser implements IUserServicePort {
                     log.error(ConstantsErrorMessages.ROL_REQUIRED);
                     return new CustomException(ConstantsErrorMessages.ROL_REQUIRED);
                 });
+    }
+
+    @Override
+    public void saveAdmin(User user) {
+        user.setPassword(ipasswordService.encryptPassword(user.getPassword()));
+        iuserPersistencePort.save(user);
     }
 }

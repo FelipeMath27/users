@@ -10,7 +10,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "PRG_TBL_ROLES")
-@SequenceGenerator(name = "rol_seq", sequenceName = "prg_tbl_roles_seq", allocationSize = 1)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,7 +17,7 @@ import lombok.Setter;
 public class RolEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rol_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idRol")
     private Long idRol;
 

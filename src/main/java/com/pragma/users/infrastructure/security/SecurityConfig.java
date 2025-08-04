@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.net.http.HttpTimeoutException;
 
 @Configuration
 @EnableWebSecurity
@@ -38,6 +37,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/users/create-employee").hasRole(TypeRolEnum.OWNER.name())
+                        .requestMatchers("/users/id/{idUser}").hasRole(TypeRolEnum.OWNER.name())
+                        .requestMatchers("/users/{email}").hasRole(TypeRolEnum.OWNER.name())
                         .requestMatchers("/users/**").hasRole(TypeRolEnum.ADMIN.name())
                         .anyRequest().authenticated()
                 )

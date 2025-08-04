@@ -35,7 +35,7 @@ public class UserRestController {
     public ResponseEntity<UserDTOResponse> getUserByEmail(@PathVariable String email) {
         log.info(ConstantsErrorMessages.LISTENER_OK_CONTROLLER);
         UserDTOResponse userDTOResponse = userHandler.getUserDTO(email);
-        log.info("Respuesta del usuario: {}", userDTOResponse);
+        log.info("{}", userDTOResponse);
         return ResponseEntity.ok(userDTOResponse);
     }
 

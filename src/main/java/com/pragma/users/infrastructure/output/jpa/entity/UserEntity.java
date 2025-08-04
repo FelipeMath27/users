@@ -13,14 +13,13 @@
 
     @Entity
     @Table(name = "PRG_TBL_USERS")
-    @SequenceGenerator(name = "user_seq", sequenceName = "prg_tbl_users_seq", allocationSize = 1)
     @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public class UserEntity {
         @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "idUser")
         private Long idUser;
 
@@ -60,4 +59,7 @@
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "idRol")
         private RolEntity rolEntity;
+
+        @Column(name = "idRestaurant")
+        private Long idRestaurant;
     }

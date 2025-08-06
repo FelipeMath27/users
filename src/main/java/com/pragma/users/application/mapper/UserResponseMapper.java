@@ -13,4 +13,6 @@ import org.mapstruct.ReportingPolicy;
         uses = {RolResponseMapper.class})
 public interface UserResponseMapper {
     UserDTOResponse toUserDtoResponse(User user);
+
+    User toUser(UserDTOResponse userDTOResponse);
 }

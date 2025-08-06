@@ -48,4 +48,14 @@ public class UserJpaAdapter implements IUserPersistencePort {
                 orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ConstantsErrorMessages.USER_NOT_FOUND)));
     }
 
+    @Override
+    public User saveEmployee(User user) {
+        try {
+            UserEntity userEntity = userEntityMapper.toUserEntity(user);
+            UserEntity savedUserEntity = userRepository.save(userEntity);
+            return userEntityMapper.toUser(savedUserEntity);
+        } catch (DataAccessException | PersistenceException ex){
+            throw new InfrastructureException(ConstantsErrorMessages.USER_NOT_SAVED, ex);
+        }
+    }
 }

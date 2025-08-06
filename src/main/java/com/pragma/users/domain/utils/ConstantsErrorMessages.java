@@ -15,6 +15,7 @@ public class ConstantsErrorMessages {
     public static final String ROL_REQUIRED = "No role was provided for the creator user.";
     public static final String ROL_NOT_FOUND = "The rol provided is not exist";
     public static final String INVALID_ROLE = "Invalid role to create de user";
+    public static final String IS_NOT_EMPLOYEE = "The user is not an employee, so it cannot be created as such.";
 
     /**Parameters*/
     public static final String INVALID_EMAIL_FORMAT = "The email is not in a valid format.";
@@ -34,10 +35,12 @@ public class ConstantsErrorMessages {
     public static final String START_VALIDATE_OWNER = "Start to validate owner user";
     public static final String START_PROCESS_TO_VALIDATE_CONDITION = "Start process to validate requirements";
     public static final String END_SUCCESSFUL_FLOW = "End flow successful";
+    public static final String END_VALIDATE_SUCCESSFUL_FLOW = "End validate flow successful";
     public static final String START_TO_CREATE_OWNER = "Start process to create a new owner";
     public static final String LISTENER_OK_CONTROLLER = "Controller listen to the HTTP method OK";
     public static final String START_TO_CREATE_ADMIN = "Start process to create a new admin";
     public static final String START_VALIDATE_EMPLOYEE = "Start to validate rol employee";
+    public static final String START_TO_CREATE_EMPLOYEE = "Start process to create a new employee";
 
 
     /**Authentication constant*/

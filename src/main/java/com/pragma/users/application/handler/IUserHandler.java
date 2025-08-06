@@ -10,5 +10,5 @@ public interface IUserHandler {
 
     UserDTOResponse getUserDTOById(Long idUser);
 
-    void saveGeneralUser(UserDTORequest userDTORequest);
+    UserDTOResponse saveEmployee(UserDTORequest userDTORequest);
 }

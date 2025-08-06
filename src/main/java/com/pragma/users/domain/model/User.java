@@ -22,7 +22,4 @@ public class User {
 	private String email;
     private String password;
     private Rol rol;
-
-    public User(String admin, String first, TypeDocumentEnum typeDocumentEnum, String number, String s, LocalDate of, String mail, String admin123, Rol rol) {
-    }
 }

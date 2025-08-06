@@ -1,6 +1,6 @@
     package com.pragma.users.infrastructure.output.jpa.entity;
 
-    import com.pragma.users.domain.model.TypeDocumentEnum;
+    import  com.pragma.users.domain.model.TypeDocumentEnum;
     import jakarta.persistence.*;
     import jakarta.validation.constraints.NotBlank;
     import jakarta.validation.constraints.NotNull;
@@ -59,7 +59,4 @@
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "idRol")
         private RolEntity rolEntity;
-
-        @Column(name = "idRestaurant")
-        private Long idRestaurant;
     }

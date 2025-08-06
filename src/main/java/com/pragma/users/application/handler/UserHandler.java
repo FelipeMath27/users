@@ -50,8 +50,8 @@ public class UserHandler implements IUserHandler{
     }
 
     @Override
-    public void saveGeneralUser(UserDTORequest userDTORequest) {
-        log.info(ConstantsErrorMessages.START_FLOW + "{}",userDTORequest.getNameRol());
-        iUserServicePort.saveEmployeeUser(userRequestMapper.toUser(userDTORequest));
+    public UserDTOResponse saveEmployee(UserDTORequest userDTORequest) {
+        log.info(ConstantsErrorMessages.START_TO_CREATE_EMPLOYEE + "{}",userDTORequest.getNameUser());
+        return userResponseMapper.toUserDtoResponse(iUserServicePort.saveEmployee(userRequestMapper.toUser(userDTORequest)));
     }
 }

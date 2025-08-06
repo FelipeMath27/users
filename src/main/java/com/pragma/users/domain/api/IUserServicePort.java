@@ -9,7 +9,5 @@ public interface IUserServicePort {
 
     User getUserById(Long idUser);
 
-    void saveEmployeeUser(User user);
-
-    void saveAdmin(User user);
+    User saveEmployee(User user);
 }

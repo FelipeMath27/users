@@ -96,42 +96,37 @@ public class UseCaseUser implements IUserServicePort {
     }
 
     @Override
-    public void saveEmployeeUser(User user) {
+    public User saveEmployee(User user) {
         log.info(ConstantsErrorMessages.START_FLOW);
         validateEmployee(user);
-        user.setPassword(ipasswordService.encryptPassword(ValidatorCases.sanitize(user.getPassword())
-                .orElseThrow(() -> new CustomException(ConstantsErrorMessages.PASSWORD_CANNOT_BE_EMPTY))));
-        iuserPersistencePort.save(user);
-        log.info(ConstantsErrorMessages.END_SUCCESSFUL_FLOW);
+        processValidateSaveUser(user);
+        log.info(ConstantsErrorMessages.END_VALIDATE_SUCCESSFUL_FLOW);
+        return iuserPersistencePort.saveEmployee(user);
     }
 
     private void validateEmployee(User user){
         log.info(ConstantsErrorMessages.START_VALIDATE_EMPLOYEE);
-        Optional.ofNullable(user.getRol())
+
+        Rol userRol = Optional.ofNullable(user.getRol())
                 .map(rol -> {
-                    Rol fetchRol = Optional.ofNullable(irolServicePort.getRolByName(rol.getNameRol()))
-                            .orElseThrow(()-> {
+                    Rol fetchedRol = Optional.ofNullable(irolServicePort.getRolByName(rol.getNameRol()))
+                            .orElseThrow(() -> {
                                 log.error(ConstantsErrorMessages.ROL_NOT_FOUND);
                                 return new CustomException(ConstantsErrorMessages.ROL_NOT_FOUND);
                             });
-                    user.setRol(fetchRol);
-                    log.info(fetchRol.getNameRol());
-                    return fetchRol;
-                }).filter(rol -> {
-                    boolean isOwner = TypeRolEnum.EMPLOYEE.name().equals(rol.getNameRol());
-                    if (!isOwner) {
-                        log.error(ConstantsErrorMessages.ROL_NOT_FOUND);
-                    }
-                    return isOwner;
-                }).orElseThrow(() -> {
+                    log.info(fetchedRol.getNameRol());
+                    return fetchedRol;
+                })
+                .orElseThrow(() -> {
                     log.error(ConstantsErrorMessages.ROL_REQUIRED);
                     return new CustomException(ConstantsErrorMessages.ROL_REQUIRED);
                 });
+        if (!TypeRolEnum.EMPLOYEE.name().equals(userRol.getNameRol())) {
+            log.error(ConstantsErrorMessages.IS_NOT_EMPLOYEE);
+            throw new CustomException(ConstantsErrorMessages.IS_NOT_EMPLOYEE);
+        }
+
+        user.setRol(userRol);
     }
 
-    @Override
-    public void saveAdmin(User user) {
-        user.setPassword(ipasswordService.encryptPassword(user.getPassword()));
-        iuserPersistencePort.save(user);
-    }
 }

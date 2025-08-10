@@ -32,6 +32,7 @@ public class UseCaseUser implements IUserServicePort {
         log.info(ConstantsErrorMessages.START_FLOW);
         validateOwnerRole(newUser);
         processValidateSaveUser(newUser);
+        iuserPersistencePort.save(newUser);
         log.info(ConstantsErrorMessages.END_SUCCESSFUL_FLOW);
     }
 
@@ -75,7 +76,6 @@ public class UseCaseUser implements IUserServicePort {
                 .orElseThrow(() -> new CustomException(ConstantsErrorMessages.NAME_CANT_BE_NULL)));
         user.setLastNameUser(ValidatorCases.sanitize(user.getLastNameUser())
                 .orElseThrow(() -> new CustomException(ConstantsErrorMessages.LAST_NAME_CANT_BE_NULL)));
-        iuserPersistencePort.save(user);
     }
 
     @Override

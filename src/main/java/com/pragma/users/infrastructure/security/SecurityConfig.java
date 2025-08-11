@@ -35,6 +35,11 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/users/create-employee").hasRole(TypeRolEnum.OWNER.name())
                         .requestMatchers("/users/id/{idUser}").hasRole(TypeRolEnum.OWNER.name())

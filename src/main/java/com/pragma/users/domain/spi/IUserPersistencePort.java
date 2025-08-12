@@ -8,5 +8,5 @@ public interface IUserPersistencePort {
     void save(User user);
     Optional<User> findByEmail(String email);
     Optional<User> findById(Long idUser);
-    User saveEmployee(User user);
+    User saveUser(User user);
 }

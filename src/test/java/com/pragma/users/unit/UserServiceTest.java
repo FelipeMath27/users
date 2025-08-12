@@ -5,6 +5,7 @@ import com.pragma.users.domain.model.Rol;
 import com.pragma.users.domain.model.TypeDocumentEnum;
 import com.pragma.users.domain.model.TypeRolEnum;
 import com.pragma.users.domain.model.User;
+import com.pragma.users.domain.spi.IRolPersistencePort;
 import com.pragma.users.domain.spi.IUserPersistencePort;
 import com.pragma.users.domain.usecase.UseCaseUser;
 import com.pragma.users.domain.utils.ConstantsErrorMessages;
@@ -33,7 +34,7 @@ class UserServiceTest {
     private IUserPersistencePort iUserPersistencePort;
 
     @Mock
-    private IRolServicePort rolServicePort;
+    private IRolPersistencePort iRolPersistencePort;
 
     @Mock
     private PasswordService passwordService;
@@ -42,7 +43,7 @@ class UserServiceTest {
     private UseCaseUser useCaseUser;
 
     private User newUserOwner, creatorUser;
-    private Rol adminRol, ownerRol;
+    private Rol adminRol, ownerRol, clientRol;
 
     private CustomException customException;
 
@@ -52,6 +53,7 @@ class UserServiceTest {
 
         adminRol = new Rol(1L, TypeRolEnum.ADMIN.name(), "Admin role");
         ownerRol = new Rol(2L, TypeRolEnum.OWNER.name(), "Owner Rol");
+        clientRol = new Rol(3L, TypeRolEnum.CLIENT.name(), "Client Rol");
 
         creatorUser = buildCreatorUser();
 
@@ -65,7 +67,7 @@ class UserServiceTest {
         when(iUserPersistencePort.findByEmail(anyString()))
                 .thenReturn(Optional.of(creatorUser));
 
-        when(rolServicePort.getRolByName(anyString())).thenReturn(ownerRol);
+        when(iRolPersistencePort.findByName(anyString())).thenReturn(Optional.ofNullable(ownerRol));
         when(passwordService.encryptPassword(anyString())).thenReturn("encryptedPassword");
     }
 
@@ -125,6 +127,24 @@ class UserServiceTest {
         customException = assertThrows(CustomException.class, () -> useCaseUser.saveUserOwner(creatorUser));
         assertEquals(ConstantsErrorMessages.INVALID_DOCUMENT_FORMAT,customException.getMessage());
    }
+
+   //Test for create client
+   @Test
+    void test_Create_client() {
+        creatorUser = buildCreatorUser();
+        newUserOwner.setRol(clientRol);
+        when(iRolPersistencePort.findByName(TypeRolEnum.CLIENT.name())).thenReturn(Optional.ofNullable(clientRol));
+        useCaseUser.saveClient(newUserOwner);
+        verify(iUserPersistencePort, times(1)).saveUser(any(User.class));
+    }
+
+    @Test
+    void test_create_client_with_invalid_role() {
+        creatorUser = buildCreatorUser();
+        newUserOwner.setRol(new Rol(4L, "INVALID_ROLE", "Invalid Role"));
+        customException = assertThrows(CustomException.class, () -> useCaseUser.saveClient(newUserOwner));
+        assertEquals(ConstantsErrorMessages.INVALID_ROLE, customException.getMessage());
+    }
 
 }
 

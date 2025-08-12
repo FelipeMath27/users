@@ -47,4 +47,11 @@ public class UserRestController {
         UserDTOResponse userDTOResponse = userHandler.saveEmployee(userDTORequest);
         return ResponseEntity.ok(userDTOResponse);
     }
+
+    @PostMapping("/client/register")
+    public ResponseEntity<UserDTOResponse> createClient(@Valid @RequestBody UserDTORequest userDTORequest){
+        log.info(ConstantsErrorMessages.LISTENER_OK_CONTROLLER);
+        UserDTOResponse userDTOResponse = userHandler.saveClient(userDTORequest);
+        return ResponseEntity.ok(userDTOResponse);
+    }
 }

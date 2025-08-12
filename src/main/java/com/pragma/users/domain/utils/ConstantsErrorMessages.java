@@ -55,6 +55,12 @@ public class ConstantsErrorMessages {
     public static final String BEARER_PREFIX = "Bearer ";
     public static final int BEARER_SUBSTRING = 7;
 
+    /**Constants to Client*/
+    public static final String START_TO_CREATE_CLIENT = "Start process to create a new client";
+    public static final String START_TO_VALIDATE_CLIENT = "Start to validate rol client";
+    public static final String CLIENT_NOT_FOUND = "Client not found in the platform";
+
+
     private ConstantsErrorMessages() {
     }
 }

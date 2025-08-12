@@ -49,7 +49,7 @@ public class UserJpaAdapter implements IUserPersistencePort {
     }
 
     @Override
-    public User saveEmployee(User user) {
+    public User saveUser(User user) {
         try {
             UserEntity userEntity = userEntityMapper.toUserEntity(user);
             UserEntity savedUserEntity = userRepository.save(userEntity);

@@ -11,4 +11,6 @@ public interface IUserHandler {
     UserDTOResponse getUserDTOById(Long idUser);
 
     UserDTOResponse saveEmployee(UserDTORequest userDTORequest);
+
+    UserDTOResponse saveClient(UserDTORequest userDTORequest);
 }

@@ -8,6 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -20,11 +22,11 @@ public class RolServiceTest {
     @Test
     void test_get_rol_by_name(){
         Rol adminRol = new Rol(1L, TypeRolEnum.ADMIN.name(),"Admin role");
-        when(iRolPersistencePort.getRolByName(adminRol.getNameRol())).thenReturn(adminRol);
+        when(iRolPersistencePort.findByName(adminRol.getNameRol())).thenReturn(Optional.of(adminRol));
 
-        iRolPersistencePort.getRolByName(adminRol.getNameRol());
+        iRolPersistencePort.findByName(adminRol.getNameRol());
 
 
-        verify(iRolPersistencePort, times(1)).getRolByName(adminRol.getNameRol());
+        verify(iRolPersistencePort, times(1)).findByName(adminRol.getNameRol());
     }
 }

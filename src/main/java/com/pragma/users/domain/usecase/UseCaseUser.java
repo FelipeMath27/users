@@ -1,12 +1,12 @@
 package com.pragma.users.domain.usecase;
 
 
-import com.pragma.users.domain.api.IRolServicePort;
 import com.pragma.users.domain.api.IUserServicePort;
 import com.pragma.users.domain.model.Rol;
 import com.pragma.users.domain.model.TypeDocumentEnum;
 import com.pragma.users.domain.model.TypeRolEnum;
 import com.pragma.users.domain.model.User;
+import com.pragma.users.domain.spi.IRolPersistencePort;
 import com.pragma.users.domain.spi.IUserPersistencePort;
 import com.pragma.users.domain.validator.ValidatorCases;
 import com.pragma.users.domain.utils.ConstantsErrorMessages;
@@ -24,8 +24,8 @@ import java.util.Optional;
 public class UseCaseUser implements IUserServicePort {
 
     private final IUserPersistencePort iuserPersistencePort;
-    private final IRolServicePort irolServicePort;
     private final IPasswordService ipasswordService;
+    private final IRolPersistencePort iRolPersistencePort;
 
     @Override
     public void saveUserOwner(User newUser) {
@@ -38,26 +38,18 @@ public class UseCaseUser implements IUserServicePort {
 
     private void validateOwnerRole(User user) {
         log.info(ConstantsErrorMessages.START_VALIDATE_OWNER);
-        Optional.ofNullable(user.getRol())
-                .map(rol -> {
-                    Rol fetchRol = Optional.ofNullable(irolServicePort.getRolByName(rol.getNameRol()))
-                            .orElseThrow(()-> {
-                                log.error(ConstantsErrorMessages.ROL_NOT_FOUND);
-                                return new CustomException(ConstantsErrorMessages.ROL_NOT_FOUND);
-                            });
-                    user.setRol(fetchRol);
-                    log.info(fetchRol.getNameRol());
-                    return fetchRol;
-                }).filter(rol -> {
-                    boolean isOwner = TypeRolEnum.OWNER.name().equals(rol.getNameRol());
-                    if (!isOwner) {
-                        log.error(ConstantsErrorMessages.ROL_NOT_FOUND);
-                    }
-                    return isOwner;
-                }).orElseThrow(() -> {
+
+        Rol ownerRol = Optional.ofNullable(user.getRol())
+                .map(Rol::getNameRol)
+                .flatMap(iRolPersistencePort::findByName)
+                .orElseThrow(() -> {
                     log.error(ConstantsErrorMessages.ROL_REQUIRED);
                     return new CustomException(ConstantsErrorMessages.ROL_REQUIRED);
                 });
+        if (!TypeRolEnum.OWNER.name().equals(ownerRol.getNameRol())) {
+            log.error(ConstantsErrorMessages.INVALID_ROLE);
+            throw new CustomException(ConstantsErrorMessages.INVALID_ROLE);
+        }
     }
 
     private void processValidateSaveUser(User user){
@@ -101,26 +93,20 @@ public class UseCaseUser implements IUserServicePort {
         validateEmployee(user);
         processValidateSaveUser(user);
         log.info(ConstantsErrorMessages.END_VALIDATE_SUCCESSFUL_FLOW);
-        return iuserPersistencePort.saveEmployee(user);
+        return iuserPersistencePort.saveUser(user);
     }
 
-    private void validateEmployee(User user){
+    private void validateEmployee(User user) {
         log.info(ConstantsErrorMessages.START_VALIDATE_EMPLOYEE);
 
         Rol userRol = Optional.ofNullable(user.getRol())
-                .map(rol -> {
-                    Rol fetchedRol = Optional.ofNullable(irolServicePort.getRolByName(rol.getNameRol()))
-                            .orElseThrow(() -> {
-                                log.error(ConstantsErrorMessages.ROL_NOT_FOUND);
-                                return new CustomException(ConstantsErrorMessages.ROL_NOT_FOUND);
-                            });
-                    log.info(fetchedRol.getNameRol());
-                    return fetchedRol;
-                })
+                .map(Rol::getNameRol)
+                .flatMap(iRolPersistencePort::findByName)
                 .orElseThrow(() -> {
                     log.error(ConstantsErrorMessages.ROL_REQUIRED);
                     return new CustomException(ConstantsErrorMessages.ROL_REQUIRED);
                 });
+
         if (!TypeRolEnum.EMPLOYEE.name().equals(userRol.getNameRol())) {
             log.error(ConstantsErrorMessages.IS_NOT_EMPLOYEE);
             throw new CustomException(ConstantsErrorMessages.IS_NOT_EMPLOYEE);
@@ -129,4 +115,18 @@ public class UseCaseUser implements IUserServicePort {
         user.setRol(userRol);
     }
 
+
+    @Override
+    public User saveClient(User user) {
+        log.info(ConstantsErrorMessages.START_FLOW);
+        Rol rolCliente = iRolPersistencePort.findByName(TypeRolEnum.CLIENT.name())
+                .orElseThrow(() -> new CustomException(ConstantsErrorMessages.ROL_NOT_FOUND));
+        Optional.ofNullable(user)
+                .map(User::getRol)
+                .filter(rol -> TypeRolEnum.CLIENT.name().equals(rol.getNameRol()))
+                .orElseThrow(() -> new CustomException(ConstantsErrorMessages.INVALID_ROLE));
+        user.setRol(rolCliente);
+        processValidateSaveUser(user);
+        return iuserPersistencePort.saveUser(user);
+    }
 }

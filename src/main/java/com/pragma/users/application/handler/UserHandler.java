@@ -54,4 +54,10 @@ public class UserHandler implements IUserHandler{
         log.info(ConstantsErrorMessages.START_TO_CREATE_EMPLOYEE + "{}",userDTORequest.getNameUser());
         return userResponseMapper.toUserDtoResponse(iUserServicePort.saveEmployee(userRequestMapper.toUser(userDTORequest)));
     }
+
+    @Override
+    public UserDTOResponse saveClient(UserDTORequest userDTORequest) {
+        log.info(ConstantsErrorMessages.START_TO_CREATE_CLIENT + "{}",userDTORequest.getNameUser());
+        return userResponseMapper.toUserDtoResponse(iUserServicePort.saveClient(userRequestMapper.toUser(userDTORequest)));
+    }
 }

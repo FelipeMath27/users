@@ -32,12 +32,12 @@ public class RolJpaAdapter implements IRolPersistencePort {
     }
 
     @Override
-    public Rol getRolByName(String nameRol) {
+    public Optional<Rol> findByName(String nameRol) {
         log.info("Buscando rol con nombre: {}", nameRol);
         Optional<RolEntity> rolEntityOptional = iRolRepository.findByNameRol(nameRol);
         rolEntityOptional.ifPresent(entity -> log.info("Rol encontrado: {}", entity));
-        return rolEntityOptional.map(rolEntityMapper::toRol)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ConstantsErrorMessages.ROL_NOT_FOUND));
+        return Optional.ofNullable(rolEntityOptional.map(rolEntityMapper::toRol)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ConstantsErrorMessages.ROL_NOT_FOUND)));
     }
 
     @Override

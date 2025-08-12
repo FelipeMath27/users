@@ -28,9 +28,8 @@ public class BeanConfiguration {
     private final IRolRepository irolRepository;
 
     @Bean
-    public IUserServicePort userServicePort(IUserPersistencePort iUserPersistencePort,
-                                            IRolServicePort iRolServicePort, PasswordService passwordService){
-        return new UseCaseUser(iUserPersistencePort,iRolServicePort,passwordService);
+    public IUserServicePort userServicePort(IUserPersistencePort iUserPersistencePort, PasswordService passwordService, IRolPersistencePort iRolPersistencePort){
+        return new UseCaseUser(iUserPersistencePort,passwordService,iRolPersistencePort);
     }
 
     @Bean

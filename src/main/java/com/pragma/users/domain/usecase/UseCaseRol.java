@@ -19,7 +19,7 @@ public class UseCaseRol implements IRolServicePort {
 
     @Override
     public Rol getRolByName(String nameRol) {
-        return rolPersistencePort.getRolByName(nameRol);
+        return null;
     }
 
     @Override

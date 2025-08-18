@@ -41,11 +41,10 @@ public class SecurityConfig {
                                 "/swagger-ui.html"
                         ).permitAll()
                         .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/users/id/{idUser}").permitAll()
                         .requestMatchers("/users/client/register").permitAll()
                         .requestMatchers("/users/create-employee").hasRole(TypeRolEnum.OWNER.name())
-                        .requestMatchers("/users/id/{idUser}").hasRole(TypeRolEnum.OWNER.name())
                         .requestMatchers("/users/{email}").hasRole(TypeRolEnum.OWNER.name())
-                        .requestMatchers("/users/**").hasRole(TypeRolEnum.ADMIN.name())
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

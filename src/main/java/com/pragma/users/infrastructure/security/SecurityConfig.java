@@ -44,7 +44,7 @@ public class SecurityConfig {
                         .requestMatchers("/users/id/{idUser}").permitAll()
                         .requestMatchers("/users/client/register").permitAll()
                         .requestMatchers("/users/create-employee").hasRole(TypeRolEnum.OWNER.name())
-                        .requestMatchers("/users/{email}").hasRole(TypeRolEnum.OWNER.name())
+                        .requestMatchers("/users/{email}").permitAll()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
